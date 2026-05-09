@@ -99,16 +99,6 @@
       line-height:1.4;
       text-align:center;
     }
-    .story-line{
-      margin:0 0 12px;
-      font-size:14px;
-      color:#6a6f74;
-      background:#f7fafc;
-      border:1px solid #e5eaee;
-      border-radius:10px;
-      padding:8px 10px;
-      text-align:center;
-    }
     #quizCard{
       max-width:640px;
       margin:0 auto;
@@ -390,16 +380,56 @@
       min-width:180px;
     }
     @media (max-width:720px){
+      body{
+        font-size:18px;
+      }
       .landing{
         padding:22px 16px;
       }
       .landing-image{
         max-height:320px;
       }
+      .landing-sub{
+        font-size:18px;
+      }
+      h1{
+        font-size:28px;
+      }
+      .small{
+        font-size:17px;
+      }
+      .chip{
+        font-size:14px;
+      }
+      .q-title{
+        font-size:24px;
+      }
+      .opt{
+        font-size:20px;
+        padding:12px 14px;
+      }
+      .btn{
+        font-size:18px;
+      }
       .result-title{font-size:34px}
-      .result-subtitle{font-size:22px;letter-spacing:3px}
-      .result-desc{font-size:18px}
-      .result-explain{font-size:16px}
+      .result-subtitle{font-size:24px;letter-spacing:3px}
+      .result-desc{font-size:22px}
+      .result-explain{font-size:19px}
+      .stat{
+        font-size:18px;
+      }
+      .result-quote{
+        font-size:20px;
+      }
+      .rare-pill{
+        font-size:16px;
+      }
+      .crew-title{
+        font-size:24px;
+      }
+      .crew-item{
+        font-size:13px;
+      }
       .result-stats{grid-template-columns:1fr}
       .crew-grid{grid-template-columns:repeat(2,1fr)}
     }
@@ -426,7 +456,6 @@
     <section class="card" id="quizCard" style="display:none;">
       <div class="q-no" id="qNo"></div>
       <h2 class="q-title" id="qTitle"></h2>
-      <p class="story-line" id="storyLine"></p>
 
       <!-- อนาคต: ถ้าข้อไหนมีรูป ใส่ path ใน data.image -->
       <img id="qImage" class="question-image" alt="question image" />
@@ -525,7 +554,6 @@
 
     const qNo = document.getElementById("qNo");
     const qTitle = document.getElementById("qTitle");
-    const storyLine = document.getElementById("storyLine");
     const qImage = document.getElementById("qImage");
     const options = document.getElementById("options");
     const landing = document.getElementById("landing");
@@ -542,26 +570,11 @@
     const answers = Array(questions.length).fill(null);
     let current = 0;
     let isTransitioning = false;
-    const storySteps = [
-      "บทที่ 1: ค่ำคืนเริ่มต้นขึ้น และคุณกำลังฟังเสียงหัวใจตัวเอง",
-      "บทที่ 2: มีคนสังเกตเห็นคุณ และปฏิกิริยาเล็ก ๆ เผยตัวตน",
-      "บทที่ 3: ถ้าคุณต้องเริ่มมองหาคนที่ใช่สำหรับใจคุณ",
-      "บทที่ 4: ถึงเวลาหามุมปลอดภัยที่ทำให้คุณรู้สึกเป็นบ้าน",
-      "บทที่ 5: คุณเดินเข้าสู่กลุ่มเพื่อน ด้วยบทบาทเฉพาะตัว",
-      "บทที่ 6: เมื่อหัวใจโดนแตะ คุณเลือกดูแลความรู้สึกอย่างไร",
-      "บทที่ 7: บรรยากาศที่คุณชอบ กำลังเล่าคาแรกเตอร์ของคุณ",
-      "บทที่ 8: ถ้าเกิดใหม่เป็นแมว ชีวิตประจำวันของคุณจะหน้าตาแบบไหน",
-      "บทที่ 9: ตอนเริ่มชอบใคร วิธีของคุณน่ารักกว่าที่คิด",
-      "บทที่ 10: ความกลัวลึก ๆ คือกุญแจของบุคลิกที่แท้จริง",
-      "บทที่ 11: วันหยุดหนึ่งวัน เผยพลังงานที่คุณใช้เติมหัวใจ",
-      "บทที่ 12: ฉากสุดท้ายก่อนเฉลย คุณจะรักคนสำคัญแบบไหน"
-    ];
 
     function renderQuestion(){
       const item = questions[current];
       qNo.textContent = `ข้อ ${current + 1} จาก ${questions.length}`;
       qTitle.textContent = item.q;
-      storyLine.textContent = storySteps[current];
 
       progressText.textContent = `ข้อ ${current + 1} / ${questions.length}`;
       bar.style.width = `${((current + 1) / questions.length) * 100}%`;
@@ -674,10 +687,7 @@
             <div class="stars">${stars}</div>
             <span class="rare-pill">Rare</span>
           </div>
-          <div class="crew-wrap">
-            <h3 class="crew-title">แก๊งค์แมว</h3>
-            <div class="crew-grid">${crew}</div>
-          </div>
+          
           <button class="retry-btn" id="retryBtn">ลองอีกครั้ง</button>
         </div>
       `;
