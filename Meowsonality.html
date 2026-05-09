@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meowsonality</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+    :root{
+      --blue:#C7D3DB;
+      --taupe:#A79A8A;
+      --cream:#FCF7DF;
+      --dark:#3E3630;
+      --bg:#f3f5f6;
+      --card:#ffffff;
+      --line:#e6e8ea;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Itim","Noto Sans Thai",sans-serif;
+      background:var(--bg);
+      color:var(--dark);
+    }
+    .wrap{
+      max-width:760px;
+      margin:28px auto;
+      padding:0 16px 48px;
+    }
+    .wrap-landing{
+      max-width:none;
+      margin:0;
+      padding:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg,#f5f7f8 0%, #f3f5f6 40%, #eff3f5 100%);
+    }
+    .head{
+      background:linear-gradient(180deg,var(--cream),#fff);
+      border:1px solid #e9e2cd;
+      border-radius:16px;
+      padding:18px;
+      margin-bottom:14px;
+    }
+    h1{
+      margin:0 0 6px;
+      font-family:"Itim","Noto Sans Thai",sans-serif;
+      font-size:24px;
+      letter-spacing:.2px;
+    }
+    .small{margin:0;color:#5b534d;font-size:14px}
+    .meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-top:10px;
+    }
+    .chip{
+      background:#fff;
+      border:1px solid #ebe6d5;
+      border-radius:999px;
+      padding:5px 10px;
+      font-size:12px;
+    }
+    .progress{
+      margin-top:0;
+      height:8px;
+      background:#eceff1;
+      border-radius:999px;
+      overflow:hidden;
+      flex:1;
+    }
+    .bar{
+      width:0%;
+      height:100%;
+      background:var(--taupe);
+      transition:width .18s ease;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 10px 24px rgba(38,44,50,.04);
+    }
+    .q-no{
+      font-size:13px;
+      color:#70757a;
+      margin-bottom:8px;
+    }
+    .q-title{
+      margin:0 0 14px;
+      font-size:19px;
+      line-height:1.4;
+    }
+    .story-line{
+      margin:0 0 12px;
+      font-size:14px;
+      color:#6a6f74;
+      background:#f7fafc;
+      border:1px solid #e5eaee;
+      border-radius:10px;
+      padding:8px 10px;
+    }
+
+    /* เผื่อใส่รูปในอนาคต */
+    .question-image{
+      width:100%;
+      max-height:260px;
+      object-fit:cover;
+      border-radius:10px;
+      border:1px solid #ddd;
+      margin:0 0 10px;
+      display:none;
+    }
+    .question-image.show{display:block}
+
+    .opt{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      width:100%;
+      text-align:left;
+      border:1px solid #dfe4e7;
+      background:#fff;
+      border-radius:12px;
+      padding:12px;
+      margin-bottom:9px;
+      cursor:pointer;
+      color:var(--dark);
+      font-size:15px;
+      font-weight:500;
+    }
+    .opt:hover{background:#f8fafb}
+    .opt-key{
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid #d6dadd;
+      font-size:12px;
+      font-weight:700;
+      color:#5f6368;
+      flex-shrink:0;
+      background:#fff;
+    }
+    .actions{
+      display:flex;
+      gap:8px;
+      margin-top:12px;
+    }
+    .btn{
+      border:none;
+      border-radius:12px;
+      padding:10px 14px;
+      font-weight:700;
+      cursor:pointer;
+      font-size:14px;
+    }
+    .btn-back{
+      background:#e6edf1;
+      color:#2d2d2d;
+    }
+    .btn-next{
+      background:var(--dark);
+      color:#fff;
+      margin-left:auto;
+      display:none;
+    }
+    .btn:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+    }
+    .question-anim{
+      animation:questionEnter .28s ease;
+    }
+    .question-exit{
+      animation:questionExit .24s ease forwards;
+    }
+    @keyframes questionEnter{
+      from{
+        opacity:0;
+        transform:translateY(8px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+    @keyframes questionExit{
+      from{
+        opacity:1;
+        transform:translateY(0);
+      }
+      to{
+        opacity:0;
+        transform:translateY(-8px);
+      }
+    }
+
+    .result{
+      display:none;
+      margin-top:14px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 10px 24px rgba(38,44,50,.05);
+    }
+    .result-image{
+      width:100%;
+      height:320px;
+      object-fit:contain;
+      object-position:center;
+      border-radius:12px;
+      border:1px solid #d8d8d8;
+      margin:10px 0 10px;
+      background:#f8fafb;
+      padding:8px;
+    }
+    .score-line{
+      margin-top:12px;
+      font-size:13px;
+      color:#5a5f64;
+      background:#f6f8f9;
+      border:1px dashed #d5dbe0;
+      border-radius:10px;
+      padding:8px 10px;
+    }
+    .retry-btn{
+      margin-top:10px;
+      border:none;
+      background:var(--dark);
+      color:#fff;
+      border-radius:10px;
+      padding:9px 14px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .tags{margin-top:10px}
+    .tag{
+      display:inline-block;
+      background:#f7f1e9;
+      border:1px solid #e5dac8;
+      border-radius:999px;
+      padding:4px 8px;
+      margin:2px 4px 2px 0;
+      font-size:13px;
+    }
+    .result-explain{
+      margin-top:10px;
+      background:#f9fbfc;
+      border:1px solid #e1e7eb;
+      border-radius:10px;
+      padding:10px 12px;
+      color:#4f565c;
+      line-height:1.5;
+      font-size:14px;
+    }
+    .landing{
+      width:min(980px, 92vw);
+      padding:32px 20px;
+      text-align:center;
+    }
+    .landing-image{
+      width:min(760px, 88vw);
+      max-height:440px;
+      object-fit:contain;
+      border-radius:0;
+      background:transparent;
+      border:none;
+      margin:0 auto 14px;
+      display:block;
+    }
+    .landing-title{
+      margin:0 0 8px;
+      font-size:clamp(30px,4vw,46px);
+      line-height:1.2;
+    }
+    .landing-sub{
+      margin:0 0 14px;
+      color:#5a5f64;
+      font-size:15px;
+    }
+    .start-btn{
+      border:none;
+      background:var(--dark);
+      color:#fff;
+      border-radius:12px;
+      padding:11px 18px;
+      font-weight:700;
+      font-size:15px;
+      cursor:pointer;
+      min-width:180px;
+    }
+    @media (max-width:720px){
+      .landing{
+        padding:22px 16px;
+      }
+      .landing-image{
+        max-height:320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap wrap-landing" id="mainWrap">
+    <section class="landing" id="landing">
+      <img class="landing-image" src="assets/cats/cover.png" alt="Reborn as a cat" />
+      <h2 class="landing-title">Meowsonality</h2>
+      <p class="landing-sub">แบบทดสอบสั้น ๆ ดูว่าคาแรกเตอร์คุณเหมือนแมวสายไหน</p>
+      <button class="start-btn" id="startBtn">เริ่มเลย</button>
+    </section>
+
+    <section class="head" id="quizHead" style="display:none;">
+      <h1>ถ้าเกิดว่าคุณเป็นแมว คุณจะเป็นแมวแบบไหน?</h1>
+      <p class="small" id="progressText">ข้อ 1 / 12</p>
+      <div class="meta">
+        <span class="chip">ลองทำเล่นๆ ขำๆนะครับ</span>
+        <div class="progress"><div class="bar" id="bar"></div></div>
+      </div>
+    </section>
+
+    <section class="card" id="quizCard" style="display:none;">
+      <div class="q-no" id="qNo"></div>
+      <h2 class="q-title" id="qTitle"></h2>
+      <p class="story-line" id="storyLine"></p>
+
+      <!-- อนาคต: ถ้าข้อไหนมีรูป ใส่ path ใน data.image -->
+      <img id="qImage" class="question-image" alt="question image" />
+
+      <div id="options"></div>
+
+      <div class="actions">
+        <button class="btn btn-back" id="backBtn">ย้อนกลับ</button>
+        <button class="btn btn-next" id="nextBtn" disabled>ถัดไป</button>
+      </div>
+    </section>
+
+    <section id="result" class="result"></section>
+  </div>
+
+  <script>
+    const questions = [
+      { q:"เวลาเครียดที่สุด คุณมักจะ…", image:"", opts:{A:"หายไปอยู่คนเดียว",B:"หาอะไรอร่อยกิน",C:"ระบายออกทันที",D:"หาใครสักคนอยู่ข้าง ๆ"} },
+      { q:"ถ้ามีคนมาชมคุณต่อหน้า คุณจะ…", image:"", opts:{A:"เขินจนทำตัวไม่ถูก",B:"รับคำชมเต็มที่",C:"แกล้งกวนกลับ",D:"ทำเป็นไม่สนใจ"} },
+      { q:"คุณชอบคนแบบไหนมากที่สุด", image:"", opts:{A:"คนอบอุ่น",B:"คนตลก",C:"คนลึกลับน่าค้นหา",D:"คนที่เข้าใจเราโดยไม่ต้องพูดเยอะ"} },
+      { q:"ถ้าเลือกที่นอนในบ้านได้ คุณจะเลือก…", image:"", opts:{A:"เตียงนุ่ม ๆ",B:"ริมหน้าต่าง",C:"มุมแปลก ๆ ที่ไม่มีใครคิดถึง",D:"ใกล้คนที่รัก"} },
+      { q:"ในกลุ่มเพื่อน คุณมักเป็น…", image:"", opts:{A:"คนเงียบแต่ฟังทุกอย่าง",B:"ตัวสร้างเสียงหัวเราะ",C:"คนชอบแกล้งคนอื่น",D:"คนคอยดูแลเพื่อน"} },
+      { q:"ถ้ามีคนทำให้เสียใจ คุณจะ…", image:"", opts:{A:"เก็บไว้คนเดียว",B:"พยายามลืมเร็ว ๆ",C:"ประชดกลับ",D:"แอบร้องไห้ตอนอยู่คนเดียว"} },
+      { q:"คุณชอบบรรยากาศแบบไหน", image:"", opts:{A:"ฝนตก เงียบ ๆ",B:"คาเฟ่คึกคัก",C:"กลางคืนและไฟเมือง",D:"บ้านที่มีคนรออยู่"} },
+      { q:"ถ้าเป็นแมว คุณคิดว่าตัวเองจะ…", image:"", opts:{A:"นอนทั้งวัน",B:"วิ่งเล่นไม่หยุด",C:"เดินเชิด ๆ ไม่สนใคร",D:"ติดเจ้าของแจ"} },
+      { q:"เวลาเริ่มชอบใคร คุณจะ…", image:"", opts:{A:"แอบมอง",B:"เข้าหาก่อน",C:"ชอบแกล้งเขา",D:"ดูแลแบบเนียน ๆ"} },
+      { q:"คุณกลัวอะไรมากที่สุด", image:"", opts:{A:"การถูกทอดทิ้ง",B:"ความน่าเบื่อ",C:"การเสียศักดิ์ศรี",D:"การไม่มีใครเข้าใจ"} },
+      { q:"ถ้ามีวันหยุด 1 วันเต็ม คุณจะ…", image:"", opts:{A:"นอนพัก",B:"ออกไปเที่ยว",C:"หาอะไรใหม่ ๆ ทำ",D:"ใช้เวลากับคนสำคัญ"} },
+      { q:"ถ้าคนรักงอนคุณ คุณจะ…", image:"", opts:{A:"ง้อเงียบ ๆ",B:"ซื้อของอร่อยให้",C:"แกล้งหยอกจนเขาหายงอน",D:"กอดก่อนเลย"} },
+    ];
+
+    const mainResults = {
+      A:{title:"แมวเปอร์เซีย",image:"assets/cats/persian.jpg",desc:"นิ่ง สุขุม มีโลกส่วนตัวสูง อ่อนโยนแต่เปิดใจยาก",explain:"คุณตัดสินใจจากความรู้สึกภายในมากกว่าความเร่งรีบภายนอก จึงต้องการความสัมพันธ์ที่มั่นคงและพื้นที่ปลอดภัย เมื่อไว้ใจใครแล้วจะดูแลแบบลึกและจริงใจมาก",traits:["introvert","อ่อนไหว","รักความสงบ","ขี้คิด"]},
+      B:{title:"แมวส้มจอมป่วน",image:"assets/cats/orange.jpg",desc:"พลังงานสูง เข้ากับคนง่าย ขี้เล่นและใจดี",explain:"คุณเป็นคนส่งพลังบวกให้คนรอบตัวเก่ง มีความกล้าเริ่มบทสนทนาและชอบสร้างบรรยากาศสนุก ๆ แม้ภายนอกสดใส แต่ลึก ๆ ก็ต้องการคนที่รับฟังด้านอ่อนโยนของคุณเช่นกัน",traits:["social สูง","ตลก","ขี้อ้อน","กินเก่ง","ใจดี"]},
+      C:{title:"แมวดำลึกลับ",image:"assets/cats/black.jpg",desc:"มีเสน่ห์น่าค้นหา ฉลาด ปกป้องตัวเองเก่ง",explain:"คุณอ่านสถานการณ์เก่งและเก็บรายละเอียดได้ไว จึงไม่ค่อยเปิดไพ่ทั้งหมดตั้งแต่แรก ภาพรวมดูนิ่งและคูล แต่จริง ๆ เป็นคนจริงจังกับความสัมพันธ์และให้คุณค่ากับความชัดเจนมาก",traits:["independent","ฉลาด","ปากแข็ง","มีเสน่ห์เงียบ ๆ"]},
+      D:{title:"เมนคูนผู้ปกป้อง",image:"assets/cats/mainecoon.jpg",desc:"อบอุ่น รักคนของตัวเอง ดูแลเก่งและจริงใจ",explain:"คุณชอบแสดงความรักผ่านการลงมือทำ เช่นดูแลรายละเอียดเล็ก ๆ และอยู่ข้างคนสำคัญในวันที่ยากที่สุด ภายนอกดูเข้มแข็ง แต่หัวใจลึก ๆ ต้องการการตอบรับที่อบอุ่นไม่แพ้กัน",traits:["loyal","caring","โรแมนติก","emotional ลึก"]},
+    };
+
+    const tieResults = {
+      "A+C":{title:"สฟิงซ์ผู้ซ่อนหัวใจอ่อนไหว",image:"assets/cats/sphynx.jpg",desc:"นิ่ง เย็นชา แต่ลึก ๆ ต้องการความรัก",explain:"คุณมีทั้งความสงบแบบเก็บตัวและความคมชัดแบบสังเกตการณ์ จึงดูเข้าถึงยากในตอนแรก แต่เมื่อปลอดภัยพอจะเผยด้านอ่อนโยนและรักจริงแบบไม่ผิวเผิน",traits:["ลึกลับ","อ่อนไหว"]},
+      "B+D":{title:"แร็กดอลล์แมวขี้อ้อน",image:"assets/cats/ragdoll.jpg",desc:"ขี้อ้อน อบอุ่น เป็น safe zone ให้คนอื่น",explain:"คุณมีสมดุลระหว่างความสดใสกับความใส่ใจ ทำให้คนรอบตัวรู้สึกสบายใจเวลาอยู่ด้วย เป็นประเภทที่ทั้งสนุกและจริงใจ จึงสร้างความสัมพันธ์ระยะยาวได้ดี",traits:["อบอุ่น","ติดคน"]},
+      "B+C":{title:"เบงกอลนักผจญภัย",image:"assets/cats/bengal.jpg",desc:"พลังงานสูง ฉลาด คาดเดายาก",explain:"คุณรวมความกล้าลุยกับความฉลาดเชิงกลยุทธ์ไว้ด้วยกัน ชอบลองสิ่งใหม่แต่ยังมีวิธีคิดของตัวเองชัดเจน เสน่ห์ของคุณคือความเป็นตัวเองที่ไม่จำเจ",traits:["ผจญภัย","ฉลาด"]},
+      "A+D":{title:"บริติชชอร์ตแฮร์ผู้ดีแสนอบอุ่น",image:"assets/cats/british.jpg",desc:"นิ่ง สุภาพ จริงใจ แสดงรักผ่านการกระทำ",explain:"คุณไม่ได้แสดงออกหวือหวา แต่มั่นคงและใส่ใจในรายละเอียดของคนที่รักเสมอ คนอื่นอาจมองว่าคุณเงียบ แต่คนใกล้ชิดจะรู้ว่าคุณอบอุ่นและไว้ใจได้มาก",traits:["สุขุม","จริงใจ"]},
+    };
+    const fallbackImage = "634416222_946939267760313_225817689217806069_n.jpg";
+
+    const qNo = document.getElementById("qNo");
+    const qTitle = document.getElementById("qTitle");
+    const storyLine = document.getElementById("storyLine");
+    const qImage = document.getElementById("qImage");
+    const options = document.getElementById("options");
+    const landing = document.getElementById("landing");
+    const startBtn = document.getElementById("startBtn");
+    const quizHead = document.getElementById("quizHead");
+    const backBtn = document.getElementById("backBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const progressText = document.getElementById("progressText");
+    const bar = document.getElementById("bar");
+    const result = document.getElementById("result");
+    const quizCard = document.getElementById("quizCard");
+    const mainWrap = document.getElementById("mainWrap");
+
+    const answers = Array(questions.length).fill(null);
+    let current = 0;
+    let isTransitioning = false;
+    const storySteps = [
+      "บทที่ 1: ค่ำคืนเริ่มต้นขึ้น และคุณกำลังฟังเสียงหัวใจตัวเอง",
+      "บทที่ 2: มีคนสังเกตเห็นคุณ และปฏิกิริยาเล็ก ๆ เผยตัวตน",
+      "บทที่ 3: ถ้าคุณต้องเริ่มมองหาคนที่ใช่สำหรับใจคุณ",
+      "บทที่ 4: ถึงเวลาหามุมปลอดภัยที่ทำให้คุณรู้สึกเป็นบ้าน",
+      "บทที่ 5: คุณเดินเข้าสู่กลุ่มเพื่อน ด้วยบทบาทเฉพาะตัว",
+      "บทที่ 6: เมื่อหัวใจโดนแตะ คุณเลือกดูแลความรู้สึกอย่างไร",
+      "บทที่ 7: บรรยากาศที่คุณชอบ กำลังเล่าคาแรกเตอร์ของคุณ",
+      "บทที่ 8: ถ้าเกิดใหม่เป็นแมว ชีวิตประจำวันของคุณจะหน้าตาแบบไหน",
+      "บทที่ 9: ตอนเริ่มชอบใคร วิธีของคุณน่ารักกว่าที่คิด",
+      "บทที่ 10: ความกลัวลึก ๆ คือกุญแจของบุคลิกที่แท้จริง",
+      "บทที่ 11: วันหยุดหนึ่งวัน เผยพลังงานที่คุณใช้เติมหัวใจ",
+      "บทที่ 12: ฉากสุดท้ายก่อนเฉลย คุณจะรักคนสำคัญแบบไหน"
+    ];
+
+    function renderQuestion(){
+      const item = questions[current];
+      qNo.textContent = `ข้อ ${current + 1} จาก ${questions.length}`;
+      qTitle.textContent = item.q;
+      storyLine.textContent = storySteps[current];
+
+      progressText.textContent = `ข้อ ${current + 1} / ${questions.length}`;
+      bar.style.width = `${((current + 1) / questions.length) * 100}%`;
+
+      if(item.image){
+        qImage.src = item.image;
+        qImage.classList.add("show");
+      } else {
+        qImage.src = "";
+        qImage.classList.remove("show");
+      }
+
+      options.innerHTML = Object.entries(item.opts).map(([k,v]) => `
+        <button class="opt" data-choice="${k}">
+          <span class="opt-key">${k}</span>
+          <span>${v}</span>
+        </button>
+      `).join("");
+      quizCard.classList.remove("question-exit");
+      quizCard.classList.remove("question-anim");
+      requestAnimationFrame(() => quizCard.classList.add("question-anim"));
+
+      backBtn.disabled = current === 0;
+      highlightSelected();
+    }
+
+    function highlightSelected(){
+      const selected = answers[current];
+      document.querySelectorAll(".opt").forEach(btn => {
+        const isSelected = btn.dataset.choice === selected;
+        btn.style.borderColor = isSelected ? "var(--taupe)" : "#dfe4e7";
+        btn.style.background = isSelected ? "#f8f3ed" : "#fff";
+        const keyEl = btn.querySelector(".opt-key");
+        if (keyEl) {
+          keyEl.style.borderColor = isSelected ? "var(--taupe)" : "#d6dadd";
+          keyEl.style.background = isSelected ? "#efe4d6" : "#fff";
+        }
+      });
+    }
+
+    options.addEventListener("click",(e)=>{
+      const btn = e.target.closest(".opt");
+      if(!btn || isTransitioning) return;
+      isTransitioning = true;
+      answers[current] = btn.dataset.choice;
+      btn.animate(
+        [{ transform: "scale(1)" }, { transform: "scale(0.985)" }, { transform: "scale(1)" }],
+        { duration: 140, easing: "ease-out" }
+      );
+      highlightSelected();
+      quizCard.classList.remove("question-anim");
+      quizCard.classList.add("question-exit");
+      setTimeout(() => {
+        if(current < questions.length - 1){
+          current++;
+          renderQuestion();
+          isTransitioning = false;
+        } else {
+          showResult();
+          isTransitioning = false;
+        }
+      }, 280);
+    });
+
+    backBtn.addEventListener("click",()=>{
+      if(current > 0){
+        current--;
+        renderQuestion();
+      }
+    });
+
+    function showResult(){
+      const score = {A:0,B:0,C:0,D:0};
+      answers.forEach(a=>score[a]++);
+
+      const sorted = Object.entries(score).sort((a,b)=>b[1]-a[1]);
+      const [topKey, topScore] = sorted[0];
+      const secondScore = sorted[1][1];
+
+      let out;
+      if(topScore === secondScore){
+        const pair = [sorted[0][0], sorted[1][0]].sort().join("+");
+        out = tieResults[pair] || mainResults[topKey];
+      } else {
+        out = mainResults[topKey];
+      }
+
+      quizCard.style.display = "none";
+      result.style.display = "block";
+      result.innerHTML = `
+        <h2>${out.title}</h2>
+        <img class="result-image" src="${out.image || fallbackImage}" alt="${out.title}" onerror="this.src='${fallbackImage}'">
+        <p>${out.desc}</p>
+        <div class="result-explain">${out.explain}</div>
+        <div class="tags">${out.traits.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+        <button class="retry-btn" id="retryBtn">ลองอีกครั้ง</button>
+      `;
+      const retryBtn = document.getElementById("retryBtn");
+      if (retryBtn) {
+        retryBtn.addEventListener("click", resetQuiz);
+      }
+    }
+
+    function resetQuiz(){
+      answers.fill(null);
+      current = 0;
+      result.style.display = "none";
+      quizCard.style.display = "block";
+      quizHead.style.display = "block";
+      renderQuestion();
+    }
+
+    startBtn.addEventListener("click", ()=>{
+      landing.style.display = "none";
+      mainWrap.classList.remove("wrap-landing");
+      mainWrap.classList.add("wrap");
+      quizHead.style.display = "block";
+      quizCard.style.display = "block";
+      renderQuestion();
+    });
+  </script>
+</body>
+</html>
