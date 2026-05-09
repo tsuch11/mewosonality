@@ -81,21 +81,23 @@
     }
 
     .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:16px;
-      box-shadow:0 10px 24px rgba(38,44,50,.04);
+      background:transparent;
+      border:none;
+      border-radius:0;
+      padding:0;
+      box-shadow:none;
     }
     .q-no{
       font-size:13px;
       color:#70757a;
       margin-bottom:8px;
+      display:none;
     }
     .q-title{
       margin:0 0 14px;
       font-size:19px;
       line-height:1.4;
+      text-align:center;
     }
     .story-line{
       margin:0 0 12px;
@@ -105,6 +107,15 @@
       border:1px solid #e5eaee;
       border-radius:10px;
       padding:8px 10px;
+      text-align:center;
+    }
+    #quizCard{
+      max-width:640px;
+      margin:0 auto;
+    }
+    #options{
+      max-width:540px;
+      margin:0 auto;
     }
 
     /* เผื่อใส่รูปในอนาคต */
@@ -122,34 +133,22 @@
     .opt{
       display:flex;
       align-items:center;
-      gap:10px;
+      justify-content:center;
+      gap:0;
       width:100%;
-      text-align:left;
+      max-width:520px;
+      text-align:center;
       border:1px solid #dfe4e7;
       background:#fff;
-      border-radius:12px;
-      padding:12px;
-      margin-bottom:9px;
+      border-radius:10px;
+      padding:9px 12px;
+      margin:0 auto 8px;
       cursor:pointer;
       color:var(--dark);
-      font-size:15px;
+      font-size:14px;
       font-weight:500;
     }
     .opt:hover{background:#f8fafb}
-    .opt-key{
-      width:28px;
-      height:28px;
-      border-radius:999px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border:1px solid #d6dadd;
-      font-size:12px;
-      font-weight:700;
-      color:#5f6368;
-      flex-shrink:0;
-      background:#fff;
-    }
     .actions{
       display:flex;
       gap:8px;
@@ -207,62 +206,152 @@
     .result{
       display:none;
       margin-top:14px;
-      background:#fff;
-      border:1px solid var(--line);
+      background:transparent;
+      border:none;
       border-radius:16px;
-      padding:16px;
-      box-shadow:0 10px 24px rgba(38,44,50,.05);
+      padding:0;
+      box-shadow:none;
+    }
+    .result-head{
+      text-align:center;
+      margin-bottom:10px;
+    }
+    .result-title{
+      margin:0;
+      font-size:44px;
+      line-height:1.05;
+      letter-spacing:.2px;
+    }
+    .result-subtitle{
+      margin:2px 0 0;
+      font-size:28px;
+      letter-spacing:4px;
+    }
+    .result-card{
+      background:#fff;
+      border:none;
+      border-radius:26px;
+      padding:18px;
+      box-shadow:none;
     }
     .result-image{
-      width:100%;
-      height:320px;
+      width:min(62%, 260px);
+      height:auto;
+      max-height:220px;
       object-fit:contain;
       object-position:center;
-      border-radius:12px;
-      border:1px solid #d8d8d8;
-      margin:10px 0 10px;
-      background:#f8fafb;
-      padding:8px;
-    }
-    .score-line{
-      margin-top:12px;
-      font-size:13px;
-      color:#5a5f64;
-      background:#f6f8f9;
-      border:1px dashed #d5dbe0;
-      border-radius:10px;
-      padding:8px 10px;
-    }
-    .retry-btn{
-      margin-top:10px;
+      border-radius:14px;
       border:none;
-      background:var(--dark);
-      color:#fff;
-      border-radius:10px;
-      padding:9px 14px;
-      font-size:14px;
-      font-weight:700;
-      cursor:pointer;
+      margin:6px auto 12px;
+      background:transparent;
+      padding:0;
+      display:block;
     }
-    .tags{margin-top:10px}
-    .tag{
-      display:inline-block;
-      background:#f7f1e9;
-      border:1px solid #e5dac8;
-      border-radius:999px;
-      padding:4px 8px;
-      margin:2px 4px 2px 0;
-      font-size:13px;
+    .result-desc{
+      margin:0;
+      font-size:20px;
+      text-align:center;
     }
     .result-explain{
       margin-top:10px;
-      background:#f9fbfc;
-      border:1px solid #e1e7eb;
+      background:#fafafa;
+      border:1px solid #e8ecef;
+      border-radius:12px;
+      padding:12px 14px;
+      color:#4f565c;
+      line-height:1.55;
+      font-size:18px;
+    }
+    .result-stats{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+    .stat{
+      border:none;
+      border-radius:999px;
+      padding:7px 10px;
+      text-align:center;
+      font-size:16px;
+      background:transparent;
+    }
+    .result-quote{
+      margin-top:12px;
+      font-size:18px;
+      color:#6b6f74;
+      text-align:center;
+      background:transparent;
+      border:none;
       border-radius:10px;
       padding:10px 12px;
-      color:#4f565c;
-      line-height:1.5;
+    }
+    .result-rare{
+      margin-top:10px;
+      text-align:center;
+    }
+    .stars{
+      color:#ef954b;
+      font-size:20px;
+      letter-spacing:2px;
+      line-height:1;
+    }
+    .rare-pill{
+      margin-top:4px;
+      display:inline-block;
+      border:none;
+      color:#ea9250;
+      border-radius:999px;
+      padding:3px 18px;
       font-size:14px;
+      background:#fff4ea;
+    }
+    .retry-btn{
+      margin-top:16px;
+      border:none;
+      background:var(--dark);
+      color:#fff;
+      border-radius:12px;
+      padding:10px 16px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      display:block;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .crew-wrap{
+      margin-top:14px;
+      border-top:none;
+      padding-top:12px;
+    }
+    .crew-title{
+      text-align:center;
+      margin:0 0 10px;
+      font-size:22px;
+    }
+    .crew-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      max-width:260px;
+      margin:0 auto;
+    }
+    .crew-item{
+      text-align:center;
+      font-size:11px;
+      color:#666d73;
+    }
+    .crew-item img{
+      width:100%;
+      max-width:58px;
+      aspect-ratio:1/1;
+      object-fit:cover;
+      border-radius:999px;
+      border:none;
+      background:#f4f7f9;
+      margin:0 auto 4px;
+      display:block;
     }
     .landing{
       width:min(980px, 92vw);
@@ -307,6 +396,12 @@
       .landing-image{
         max-height:320px;
       }
+      .result-title{font-size:34px}
+      .result-subtitle{font-size:22px;letter-spacing:3px}
+      .result-desc{font-size:18px}
+      .result-explain{font-size:16px}
+      .result-stats{grid-template-columns:1fr}
+      .crew-grid{grid-template-columns:repeat(2,1fr)}
     }
   </style>
 </head>
@@ -364,17 +459,67 @@
     ];
 
     const mainResults = {
-      A:{title:"แมวเปอร์เซีย",image:"assets/cats/persian.jpg",desc:"นิ่ง สุขุม มีโลกส่วนตัวสูง อ่อนโยนแต่เปิดใจยาก",explain:"คุณตัดสินใจจากความรู้สึกภายในมากกว่าความเร่งรีบภายนอก จึงต้องการความสัมพันธ์ที่มั่นคงและพื้นที่ปลอดภัย เมื่อไว้ใจใครแล้วจะดูแลแบบลึกและจริงใจมาก",traits:["introvert","อ่อนไหว","รักความสงบ","ขี้คิด"]},
-      B:{title:"แมวส้มจอมป่วน",image:"assets/cats/orange.jpg",desc:"พลังงานสูง เข้ากับคนง่าย ขี้เล่นและใจดี",explain:"คุณเป็นคนส่งพลังบวกให้คนรอบตัวเก่ง มีความกล้าเริ่มบทสนทนาและชอบสร้างบรรยากาศสนุก ๆ แม้ภายนอกสดใส แต่ลึก ๆ ก็ต้องการคนที่รับฟังด้านอ่อนโยนของคุณเช่นกัน",traits:["social สูง","ตลก","ขี้อ้อน","กินเก่ง","ใจดี"]},
-      C:{title:"แมวดำลึกลับ",image:"assets/cats/black.jpg",desc:"มีเสน่ห์น่าค้นหา ฉลาด ปกป้องตัวเองเก่ง",explain:"คุณอ่านสถานการณ์เก่งและเก็บรายละเอียดได้ไว จึงไม่ค่อยเปิดไพ่ทั้งหมดตั้งแต่แรก ภาพรวมดูนิ่งและคูล แต่จริง ๆ เป็นคนจริงจังกับความสัมพันธ์และให้คุณค่ากับความชัดเจนมาก",traits:["independent","ฉลาด","ปากแข็ง","มีเสน่ห์เงียบ ๆ"]},
-      D:{title:"เมนคูนผู้ปกป้อง",image:"assets/cats/mainecoon.jpg",desc:"อบอุ่น รักคนของตัวเอง ดูแลเก่งและจริงใจ",explain:"คุณชอบแสดงความรักผ่านการลงมือทำ เช่นดูแลรายละเอียดเล็ก ๆ และอยู่ข้างคนสำคัญในวันที่ยากที่สุด ภายนอกดูเข้มแข็ง แต่หัวใจลึก ๆ ต้องการการตอบรับที่อบอุ่นไม่แพ้กัน",traits:["loyal","caring","โรแมนติก","emotional ลึก"]},
+      A:{title:"แมวเปอร์เซีย",enTitle:"PERSIAN CAT",image:"assets/cats/persian.jpg",desc:"นิ่ง สุขุม มีโลกส่วนตัวสูง อ่อนโยนแต่เปิดใจยาก",explain:"คุณตัดสินใจจากความรู้สึกภายในมากกว่าความเร่งรีบภายนอก จึงต้องการความสัมพันธ์ที่มั่นคงและพื้นที่ปลอดภัย เมื่อไว้ใจใครแล้วจะดูแลแบบลึกและจริงใจมาก",stats:["อ่อนไหว","มั่นคง","ช่างคิด"],quote:"เงียบ...แต่รักจริงไม่เล่น",rarity:3,traits:["introvert","อ่อนไหว","รักความสงบ","ขี้คิด"]},
+      B:{title:"แมวส้มจอมป่วน",enTitle:"ORANGE CAT",image:"assets/cats/orange.jpg",desc:"พลังงานสูง เข้ากับคนง่าย ขี้เล่นและใจดี",explain:"คุณเป็นคนส่งพลังบวกให้คนรอบตัวเก่ง มีความกล้าเริ่มบทสนทนาและชอบสร้างบรรยากาศสนุก ๆ แม้ภายนอกสดใส แต่ลึก ๆ ก็ต้องการคนที่รับฟังด้านอ่อนโยนของคุณเช่นกัน",stats:["ขี้เล่น","อบอุ่น","เฟรนด์ลี่"],quote:"ยิ้มไว้ก่อน เดี๋ยวทุกอย่างก็ดีขึ้น",rarity:2,traits:["social สูง","ตลก","ขี้อ้อน","กินเก่ง","ใจดี"]},
+      C:{title:"แมวดำลึกลับ",enTitle:"BLACK CAT",image:"assets/cats/black.jpg",desc:"มีเสน่ห์น่าค้นหา ฉลาด ปกป้องตัวเองเก่ง",explain:"คุณอ่านสถานการณ์เก่งและเก็บรายละเอียดได้ไว จึงไม่ค่อยเปิดไพ่ทั้งหมดตั้งแต่แรก ภาพรวมดูนิ่งและคูล แต่จริง ๆ เป็นคนจริงจังกับความสัมพันธ์และให้คุณค่ากับความชัดเจนมาก",stats:["ลึกลับ","ฉลาด","คมชัด"],quote:"ไม่พูดเยอะ แต่มองลึกเสมอ",rarity:4,traits:["independent","ฉลาด","ปากแข็ง","มีเสน่ห์เงียบ ๆ"]},
+      D:{title:"เมนคูนผู้ปกป้อง",enTitle:"MAINE COON",image:"assets/cats/mainecoon.jpg",desc:"อบอุ่น รักคนของตัวเอง ดูแลเก่งและจริงใจ",explain:"คุณชอบแสดงความรักผ่านการลงมือทำ เช่นดูแลรายละเอียดเล็ก ๆ และอยู่ข้างคนสำคัญในวันที่ยากที่สุด ภายนอกดูเข้มแข็ง แต่หัวใจลึก ๆ ต้องการการตอบรับที่อบอุ่นไม่แพ้กัน",stats:["เอาใจใส่","ซื่อสัตย์","จริงใจ"],quote:"ดูแลเธอ คือภาษารักของฉัน",rarity:3,traits:["loyal","caring","โรแมนติก","emotional ลึก"]},
     };
 
     const tieResults = {
-      "A+C":{title:"สฟิงซ์ผู้ซ่อนหัวใจอ่อนไหว",image:"assets/cats/sphynx.jpg",desc:"นิ่ง เย็นชา แต่ลึก ๆ ต้องการความรัก",explain:"คุณมีทั้งความสงบแบบเก็บตัวและความคมชัดแบบสังเกตการณ์ จึงดูเข้าถึงยากในตอนแรก แต่เมื่อปลอดภัยพอจะเผยด้านอ่อนโยนและรักจริงแบบไม่ผิวเผิน",traits:["ลึกลับ","อ่อนไหว"]},
-      "B+D":{title:"แร็กดอลล์แมวขี้อ้อน",image:"assets/cats/ragdoll.jpg",desc:"ขี้อ้อน อบอุ่น เป็น safe zone ให้คนอื่น",explain:"คุณมีสมดุลระหว่างความสดใสกับความใส่ใจ ทำให้คนรอบตัวรู้สึกสบายใจเวลาอยู่ด้วย เป็นประเภทที่ทั้งสนุกและจริงใจ จึงสร้างความสัมพันธ์ระยะยาวได้ดี",traits:["อบอุ่น","ติดคน"]},
-      "B+C":{title:"เบงกอลนักผจญภัย",image:"assets/cats/bengal.jpg",desc:"พลังงานสูง ฉลาด คาดเดายาก",explain:"คุณรวมความกล้าลุยกับความฉลาดเชิงกลยุทธ์ไว้ด้วยกัน ชอบลองสิ่งใหม่แต่ยังมีวิธีคิดของตัวเองชัดเจน เสน่ห์ของคุณคือความเป็นตัวเองที่ไม่จำเจ",traits:["ผจญภัย","ฉลาด"]},
-      "A+D":{title:"บริติชชอร์ตแฮร์ผู้ดีแสนอบอุ่น",image:"assets/cats/british.jpg",desc:"นิ่ง สุภาพ จริงใจ แสดงรักผ่านการกระทำ",explain:"คุณไม่ได้แสดงออกหวือหวา แต่มั่นคงและใส่ใจในรายละเอียดของคนที่รักเสมอ คนอื่นอาจมองว่าคุณเงียบ แต่คนใกล้ชิดจะรู้ว่าคุณอบอุ่นและไว้ใจได้มาก",traits:["สุขุม","จริงใจ"]},
+      "A+C":{title:"สฟิงซ์ผู้ซ่อนหัวใจอ่อนไหว",enTitle:"SPHYNX CAT",image:"assets/cats/sphynx.jpg",desc:"นิ่ง เย็นชา แต่ลึก ๆ ต้องการความรัก",explain:"คุณมีทั้งความสงบแบบเก็บตัวและความคมชัดแบบสังเกตการณ์ จึงดูเข้าถึงยากในตอนแรก แต่เมื่อปลอดภัยพอจะเผยด้านอ่อนโยนและรักจริงแบบไม่ผิวเผิน",stats:["นิ่งลึก","อ่านคนเก่ง","แพชชั่นสูง"],quote:"ดูเฉย ๆ แต่ใจอ่อนกับคนพิเศษ",rarity:4,traits:["ลึกลับ","อ่อนไหว"]},
+      "B+D":{title:"แร็กดอลล์แมวขี้อ้อน",enTitle:"RAGDOLL CAT",image:"assets/cats/ragdoll.jpg",desc:"ขี้อ้อน อบอุ่น เป็น safe zone ให้คนอื่น",explain:"คุณมีสมดุลระหว่างความสดใสกับความใส่ใจ ทำให้คนรอบตัวรู้สึกสบายใจเวลาอยู่ด้วย เป็นประเภทที่ทั้งสนุกและจริงใจ จึงสร้างความสัมพันธ์ระยะยาวได้ดี",stats:["ขี้อ้อน","ใจดี","น่าไว้ใจ"],quote:"ความนุ่มนวล คือพลังของฉัน",rarity:2,traits:["อบอุ่น","ติดคน"]},
+      "B+C":{title:"เบงกอลนักผจญภัย",enTitle:"BENGAL CAT",image:"assets/cats/bengal.jpg",desc:"พลังงานสูง ฉลาด คาดเดายาก",explain:"คุณรวมความกล้าลุยกับความฉลาดเชิงกลยุทธ์ไว้ด้วยกัน ชอบลองสิ่งใหม่แต่ยังมีวิธีคิดของตัวเองชัดเจน เสน่ห์ของคุณคือความเป็นตัวเองที่ไม่จำเจ",stats:["กล้าลุย","ไวพริบดี","ครีเอทีฟ"],quote:"ฉันไม่ซ้ำใคร และภูมิใจกับสิ่งนั้น",rarity:5,traits:["ผจญภัย","ฉลาด"]},
+      "A+D":{title:"บริติชชอร์ตแฮร์ผู้ดีแสนอบอุ่น",enTitle:"BRITISH SHORTHAIR",image:"assets/cats/british.jpg",desc:"นิ่ง สุภาพ จริงใจ แสดงรักผ่านการกระทำ",explain:"คุณไม่ได้แสดงออกหวือหวา แต่มั่นคงและใส่ใจในรายละเอียดของคนที่รักเสมอ คนอื่นอาจมองว่าคุณเงียบ แต่คนใกล้ชิดจะรู้ว่าคุณอบอุ่นและไว้ใจได้มาก",stats:["สุภาพ","มั่นคง","อบอุ่น"],quote:"ฉันไม่พูดเยอะ แต่ทำให้เห็นเสมอ",rarity:3,traits:["สุขุม","จริงใจ"]},
+    };
+    const crewMap = {
+      A: [
+        {name:"แมวดำลึกลับ", image:"assets/cats/black.jpg"},
+        {name:"เมนคูนผู้ปกป้อง", image:"assets/cats/mainecoon.jpg"},
+        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.jpg"},
+        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.jpg"}
+      ],
+      B: [
+        {name:"เบงกอล", image:"assets/cats/bengal.jpg"},
+        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.jpg"},
+        {name:"เมนคูน", image:"assets/cats/mainecoon.jpg"},
+        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.jpg"}
+      ],
+      C: [
+        {name:"สฟิงซ์", image:"assets/cats/sphynx.jpg"},
+        {name:"เบงกอล", image:"assets/cats/bengal.jpg"},
+        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.jpg"},
+        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.jpg"}
+      ],
+      D: [
+        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.jpg"},
+        {name:"แมวส้มจอมป่วน", image:"assets/cats/orange.jpg"},
+        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.jpg"},
+        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.jpg"}
+      ],
+      "A+C": [
+        {name:"แมวดำลึกลับ", image:"assets/cats/black.jpg"},
+        {name:"เบงกอล", image:"assets/cats/bengal.jpg"},
+        {name:"สฟิงซ์", image:"assets/cats/sphynx.jpg"},
+        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.jpg"}
+      ],
+      "B+D": [
+        {name:"แมวส้มจอมป่วน", image:"assets/cats/orange.jpg"},
+        {name:"เมนคูน", image:"assets/cats/mainecoon.jpg"},
+        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.jpg"},
+        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.jpg"}
+      ],
+      "B+C": [
+        {name:"เบงกอล", image:"assets/cats/bengal.jpg"},
+        {name:"แมวดำลึกลับ", image:"assets/cats/black.jpg"},
+        {name:"แมวส้มจอมป่วน", image:"assets/cats/orange.jpg"},
+        {name:"สฟิงซ์", image:"assets/cats/sphynx.jpg"}
+      ],
+      "A+D": [
+        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.jpg"},
+        {name:"เมนคูน", image:"assets/cats/mainecoon.jpg"},
+        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.jpg"},
+        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.jpg"}
+      ]
     };
     const fallbackImage = "634416222_946939267760313_225817689217806069_n.jpg";
 
@@ -431,7 +576,6 @@
 
       options.innerHTML = Object.entries(item.opts).map(([k,v]) => `
         <button class="opt" data-choice="${k}">
-          <span class="opt-key">${k}</span>
           <span>${v}</span>
         </button>
       `).join("");
@@ -449,11 +593,6 @@
         const isSelected = btn.dataset.choice === selected;
         btn.style.borderColor = isSelected ? "var(--taupe)" : "#dfe4e7";
         btn.style.background = isSelected ? "#f8f3ed" : "#fff";
-        const keyEl = btn.querySelector(".opt-key");
-        if (keyEl) {
-          keyEl.style.borderColor = isSelected ? "var(--taupe)" : "#d6dadd";
-          keyEl.style.background = isSelected ? "#efe4d6" : "#fff";
-        }
       });
     }
 
@@ -497,22 +636,50 @@
       const secondScore = sorted[1][1];
 
       let out;
+      let resultKey;
       if(topScore === secondScore){
         const pair = [sorted[0][0], sorted[1][0]].sort().join("+");
         out = tieResults[pair] || mainResults[topKey];
+        resultKey = tieResults[pair] ? pair : topKey;
       } else {
         out = mainResults[topKey];
+        resultKey = topKey;
       }
+
+      const stars = "★".repeat(out.rarity || 3);
+      const crew = (crewMap[resultKey] || crewMap[topKey] || []).slice(0, 3).map(cat => `
+        <div class="crew-item">
+          <img src="${cat.image}" alt="${cat.name}" onerror="this.src='${fallbackImage}'">
+          <div>${cat.name}</div>
+        </div>
+      `).join("");
+      const stats = (out.stats || out.traits || []).slice(0,3).map(stat => `
+        <div class="stat">${stat}</div>
+      `).join("");
 
       quizCard.style.display = "none";
       result.style.display = "block";
       result.innerHTML = `
-        <h2>${out.title}</h2>
-        <img class="result-image" src="${out.image || fallbackImage}" alt="${out.title}" onerror="this.src='${fallbackImage}'">
-        <p>${out.desc}</p>
-        <div class="result-explain">${out.explain}</div>
-        <div class="tags">${out.traits.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
-        <button class="retry-btn" id="retryBtn">ลองอีกครั้ง</button>
+        <div class="result-head">
+          <h2 class="result-title">${out.title}</h2>
+          <p class="result-subtitle">${out.enTitle || "CAT PERSONALITY"}</p>
+        </div>
+        <div class="result-card">
+          <img class="result-image" src="${out.image || fallbackImage}" alt="${out.title}" onerror="this.src='${fallbackImage}'">
+          <p class="result-desc">${out.desc}</p>
+          <div class="result-explain">${out.explain}</div>
+          <div class="result-stats">${stats}</div>
+          <div class="result-quote">"${out.quote || "นี่แหละตัวตนแมวในแบบคุณ"}"</div>
+          <div class="result-rare">
+            <div class="stars">${stars}</div>
+            <span class="rare-pill">Rare</span>
+          </div>
+          <div class="crew-wrap">
+            <h3 class="crew-title">แก๊งค์แมว</h3>
+            <div class="crew-grid">${crew}</div>
+          </div>
+          <button class="retry-btn" id="retryBtn">ลองอีกครั้ง</button>
+        </div>
       `;
       const retryBtn = document.getElementById("retryBtn");
       if (retryBtn) {
