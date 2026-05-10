@@ -184,6 +184,7 @@
       font-weight:700;
       cursor:pointer;
       font-size:14px;
+      font-family:"Itim",sans-serif;
     }
     .btn-back{
       background:#e6edf1;
@@ -786,6 +787,7 @@
       requestAnimationFrame(() => quizCard.classList.add("question-anim"));
 
       backBtn.disabled = current === 0;
+      backBtn.style.visibility = current === 0 ? "hidden" : "visible";
       highlightSelected();
     }
 
