@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meowsonality</title>
+  <title>Which Cat you are?</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
     :root{
@@ -18,14 +18,18 @@
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:"Itim","Noto Sans Thai",sans-serif;
+      font-family:"Itim",sans-serif;
       background:var(--bg);
       color:var(--dark);
     }
     .wrap{
       max-width:760px;
-      margin:28px auto;
+      margin:0 auto;
       padding:0 16px 48px;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
     }
     .wrap-landing{
       max-width:none;
@@ -38,11 +42,11 @@
       background:linear-gradient(180deg,#f5f7f8 0%, #f3f5f6 40%, #eff3f5 100%);
     }
     .head{
-      background:linear-gradient(180deg,var(--cream),#fff);
-      border:1px solid #e9e2cd;
-      border-radius:16px;
-      padding:18px;
-      margin-bottom:14px;
+      background:transparent;
+      border:none;
+      border-radius:0;
+      padding:0 0 14px 0;
+      margin-bottom:0;
     }
     h1{
       margin:0 0 6px;
@@ -67,17 +71,45 @@
     }
     .progress{
       margin-top:0;
-      height:8px;
+      height:10px;
       background:#eceff1;
       border-radius:999px;
-      overflow:hidden;
+      overflow:visible;
       flex:1;
+      max-width:320px;
+      margin:0 auto;
+      position:relative;
     }
     .bar{
       width:0%;
       height:100%;
       background:var(--taupe);
-      transition:width .18s ease;
+      border-radius:999px;
+      transition:width .4s cubic-bezier(.4,0,.2,1);
+      position:relative;
+      overflow:visible;
+    }
+    /* ====== pixel cat runner ====== */
+    .cat-runner{
+      position:absolute;
+      right:-16px;
+      top:50%;
+      transform:translateY(-35%);
+      width:36px;
+      height:36px;
+      pointer-events:none;
+      z-index:10;
+      image-rendering:pixelated;
+      animation:catBounce .45s steps(2,end) infinite;
+    }
+    .cat-runner svg{
+      width:100%;
+      height:100%;
+      image-rendering:pixelated;
+    }
+    @keyframes catBounce{
+      0%,100%{ transform:translateY(-35%); }
+      50%    { transform:translateY(-42%); }
     }
 
     .card{
@@ -137,6 +169,7 @@
       color:var(--dark);
       font-size:14px;
       font-weight:500;
+      font-family:"Itim",sans-serif;
     }
     .opt:hover{background:#f8fafb}
     .actions{
@@ -417,8 +450,8 @@
         font-size:24px;
       }
       .opt{
-        font-size:20px;
-        padding:12px 14px;
+        font-size:16px;
+        padding:10px 12px;
       }
       .btn{
         font-size:18px;
@@ -454,23 +487,115 @@
       }
       .crew-grid{grid-template-columns:repeat(2,1fr)}
     }
+
+    /* ====== retro popup ====== */
+    .popup-overlay{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:999;
+      background:rgba(255,255,255,0.15);
+      backdrop-filter:blur(3px);
+      -webkit-backdrop-filter:blur(3px);
+      animation:fadeInOverlay .25s ease;
+    }
+    @keyframes fadeInOverlay{
+      from{opacity:0;transform:scale(.92)} to{opacity:1;transform:scale(1)}
+    }
+    .popup-window{
+      font-family:"Courier New", monospace;
+      background:#FCF7DF;
+      border:2px solid #A79A8A;
+      box-shadow:4px 4px 0 #A79A8A, inset 1px 1px 0 #ffffff;
+      width:min(300px, 86vw);
+      image-rendering:pixelated;
+    }
+    .popup-titlebar{
+      background:#A79A8A;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:4px 6px;
+      font-size:11px;
+      color:#FCF7DF;
+      font-weight:bold;
+      letter-spacing:.5px;
+    }
+    .popup-titlebar-left{display:flex;align-items:center;gap:4px;}
+    .popup-titlebar-btn{
+      width:13px;height:13px;
+      background:#FCF7DF;
+      border:1px solid #3E3630;
+      font-size:7px;
+      display:flex;align-items:center;justify-content:center;
+      color:#3E3630;
+    }
+    .popup-body{
+      padding:18px 16px 16px;
+      text-align:center;
+    }
+    .popup-body p{
+      margin:0 0 2px;
+      font-size:12px;
+      color:#3E3630;
+      line-height:1.6;
+    }
+    .popup-body .popup-sub{
+      font-size:11px;
+      color:#A79A8A;
+      margin-bottom:12px;
+      font-style:italic;
+    }
+    .popup-ok{
+      margin-top:14px;
+      background:#FCF7DF;
+      border:2px solid #3E3630;
+      box-shadow:2px 2px 0 #3E3630;
+      padding:5px 32px;
+      font-family:"Courier New", monospace;
+      font-size:13px;
+      font-weight:bold;
+      color:#3E3630;
+      cursor:pointer;
+      letter-spacing:1px;
+      display:inline-block;
+    }
+    .popup-ok:active{box-shadow:none;transform:translate(2px,2px);}
   </style>
 </head>
 <body>
   <div class="wrap wrap-landing" id="mainWrap">
     <section class="landing" id="landing">
-      <img class="landing-image" src="assets/cats/cover.png" alt="Reborn as a cat" />
-      <h2 class="landing-title">Meowsonality</h2>
+      <img class="landing-image" src="assets/cats/cover.gif" alt="Reborn as a cat" />
+      <h2 class="landing-title">Which Cat you are? </h2>
       <p class="landing-sub">แบบทดสอบสั้น ๆ ดูว่าคาแรกเตอร์คุณเหมือนแมวสายไหน</p>
       <button class="start-btn" id="startBtn">เริ่มเลย</button>
     </section>
 
     <section class="head" id="quizHead" style="display:none;">
-      <h1>ถ้าเกิดว่าคุณเป็นแมว คุณจะเป็นแมวแบบไหน?</h1>
-      <p class="small" id="progressText">ข้อ 1 / 12</p>
-      <div class="meta">
-        <span class="chip">ลองทำเล่นๆ ขำๆนะครับ</span>
-        <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="progress">
+        <div class="bar" id="bar">
+          <div class="cat-runner" id="catRunner">
+            <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+              <g>
+                <!-- หู -->
+                <rect x="1" y="0" width="2" height="2" fill="#1a1a1a"/>
+                <rect x="9" y="0" width="2" height="2" fill="#1a1a1a"/>
+                <!-- หัวกลม -->
+                <rect x="1" y="1" width="10" height="1" fill="#1a1a1a"/>
+                <rect x="0" y="2" width="12" height="6" fill="#1a1a1a"/>
+                <rect x="1" y="8" width="10" height="1" fill="#1a1a1a"/>
+                <!-- ตา -->
+                <rect x="2" y="4" width="2" height="2" fill="#f5c842"/>
+                <rect x="8" y="4" width="2" height="2" fill="#f5c842"/>
+                <!-- จมูก/ปาก -->
+                <rect x="5" y="6" width="2" height="1" fill="#A79A8A"/>
+              </g>
+            </svg>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -582,7 +707,6 @@
     const quizHead = document.getElementById("quizHead");
     const backBtn = document.getElementById("backBtn");
     const nextBtn = document.getElementById("nextBtn");
-    const progressText = document.getElementById("progressText");
     const bar = document.getElementById("bar");
     const result = document.getElementById("result");
     const quizCard = document.getElementById("quizCard");
@@ -597,7 +721,6 @@
       qNo.textContent = `ข้อ ${current + 1} จาก ${questions.length}`;
       qTitle.textContent = item.q;
 
-      progressText.textContent = `ข้อ ${current + 1} / ${questions.length}`;
       bar.style.width = `${((current + 1) / questions.length) * 100}%`;
 
       if(item.image){
@@ -692,7 +815,15 @@
       `).join("");
 
       quizCard.style.display = "none";
-      result.style.display = "block";
+      quizHead.style.display = "none";
+
+      // show retro popup first
+      const popup = document.getElementById("catPopup");
+      popup.style.display = "flex";
+      document.getElementById("popupOkBtn").onclick = () => {
+        popup.style.display = "none";
+        result.style.display = "block";
+      };
       result.innerHTML = `
         <div class="result-head">
           <h2 class="result-title">${out.title}</h2>
@@ -733,5 +864,49 @@
       renderQuestion();
     });
   </script>
+
+  <!-- retro popup -->
+  <div class="popup-overlay" id="catPopup" style="display:none;">
+    <div class="popup-window">
+      <div class="popup-titlebar">
+        <div class="popup-titlebar-left">
+          <div class="popup-titlebar-btn">□</div>
+          <span>猫のメッセージ</span>
+        </div>
+        <div style="display:flex;gap:3px;">
+          <div class="popup-titlebar-btn">－</div>
+          <div class="popup-titlebar-btn">✕</div>
+        </div>
+      </div>
+      <div class="popup-body">
+        <p>あなたは猫を受け取りました</p>
+        <p class="popup-sub">You have received a cat.</p>
+        <svg width="56" height="52" viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:8px auto 4px;image-rendering:pixelated;">
+          <!-- หู -->
+          <rect x="1" y="0" width="2" height="2" fill="#1a1a1a"/>
+          <rect x="11" y="0" width="2" height="2" fill="#1a1a1a"/>
+          <!-- หัว -->
+          <rect x="1" y="1" width="12" height="1" fill="#1a1a1a"/>
+          <rect x="0" y="2" width="14" height="5" fill="#1a1a1a"/>
+          <rect x="1" y="7" width="12" height="1" fill="#1a1a1a"/>
+          <!-- ตา -->
+          <rect x="2" y="3" width="2" height="2" fill="#C7D3DB"/>
+          <rect x="10" y="3" width="2" height="2" fill="#C7D3DB"/>
+          <!-- จมูก -->
+          <rect x="6" y="5" width="2" height="1" fill="#f4a0a0"/>
+          <!-- ลำตัว -->
+          <rect x="2" y="8" width="10" height="3" fill="#1a1a1a"/>
+          <!-- ขา -->
+          <rect x="2" y="11" width="2" height="2" fill="#1a1a1a"/>
+          <rect x="10" y="11" width="2" height="2" fill="#1a1a1a"/>
+          <!-- หาง -->
+          <rect x="12" y="7" width="1" height="3" fill="#1a1a1a"/>
+          <rect x="13" y="6" width="1" height="2" fill="#1a1a1a"/>
+        </svg>
+        <br>
+        <button class="popup-ok" id="popupOkBtn">Ok</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
