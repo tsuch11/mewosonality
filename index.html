@@ -227,168 +227,190 @@
       }
     }
 
+    /* ====== result card redesign ====== */
     .result{
       display:none;
-      margin-top:14px;
-      background:transparent;
-      border:none;
-      border-radius:16px;
-      padding:0;
-      box-shadow:none;
+      padding:20px 0 40px;
+    }
+    /* outer card */
+    .result-card{
+      background:#FCF7DF;
+      border:2px solid #A79A8A;
+      border-radius:24px;
+      max-width:520px;
+      margin:0 auto;
+      overflow:hidden;
+      box-shadow: 0 8px 32px rgba(62,54,48,0.10), 0 2px 8px rgba(167,154,138,0.15);
+      position:relative;
+    }
+    /* top accent bar */
+    .result-card::before{
+      content:"";
+      display:block;
+      height:6px;
+      background: linear-gradient(90deg, #C7D3DB, #A79A8A, #C7D3DB);
+    }
+    /* image section */
+    .result-img-wrap{
+      background: linear-gradient(180deg, #C7D3DB 0%, #dce6eb 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px 20px 20px;
+      position:relative;
+    }
+    .result-image{
+      width:min(55%, 200px);
+      height:auto;
+      max-height:200px;
+      object-fit:contain;
+      filter:drop-shadow(0 6px 18px rgba(62,54,48,0.18));
+      display:block;
+      margin:0 auto;
+      animation:resultCatFloat 3s ease-in-out infinite;
+    }
+    @keyframes resultCatFloat{
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-7px);}
+    }
+    /* rarity badge */
+      position:absolute;
+      top:14px;
+      right:16px;
+      background:#3E3630;
+      color:#FCF7DF;
+      font-family:"Courier New",monospace;
+      font-size:10px;
+      letter-spacing:1.5px;
+      padding:3px 10px;
+      border-radius:999px;
+    }
+    /* body section */
+    .result-body{
+      padding:20px 24px 24px;
     }
     .result-head{
       text-align:center;
-      margin-bottom:10px;
+      margin-bottom:14px;
+      padding-bottom:14px;
+      border-bottom: 1px solid #d5cfc4;
     }
     .result-title{
-      margin:0;
-      font-size:44px;
-      line-height:1.05;
-      letter-spacing:.2px;
+      margin:0 0 4px;
+      font-size:34px;
+      color:#3E3630;
+      line-height:1.1;
     }
     .result-subtitle{
-      margin:2px 0 0;
-      font-size:28px;
-      letter-spacing:4px;
-    }
-    .result-card{
-      background:#fff;
-      border:none;
-      border-radius:26px;
-      padding:18px;
-      box-shadow:none;
-    }
-    .result-image{
-      width:min(62%, 260px);
-      height:auto;
-      max-height:220px;
-      object-fit:contain;
-      object-position:center;
-      border-radius:14px;
-      border:none;
-      margin:6px auto 12px;
-      background:transparent;
-      padding:0;
-      display:block;
+      margin:0;
+      font-size:13px;
+      letter-spacing:3px;
+      color:#A79A8A;
+      font-family:"Courier New",monospace;
     }
     .result-desc{
-      margin:0;
-      font-size:20px;
+      font-size:17px;
       text-align:center;
+      color:#3E3630;
+      margin:0 0 12px;
+      font-weight:600;
+      line-height:1.5;
     }
     .result-explain{
-      margin-top:10px;
-      background:#fafafa;
-      border:1px solid #e8ecef;
-      border-radius:12px;
-      padding:12px 14px;
-      color:#4f565c;
-      line-height:1.55;
-      font-size:18px;
+      font-size:15px;
+      line-height:1.65;
+      color:#5a5048;
+      background:rgba(199,211,219,0.25);
+      border-left:3px solid #A79A8A;
+      border-radius:0 8px 8px 0;
+      padding:10px 14px;
+      margin:0 0 14px;
     }
-.result-stats {
-      margin-top: 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0; /* ใช้ border แทน gap เพื่อความแม่นยำ */
+    /* stat pills */
+    .result-stats{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
     }
-    .stat {
-      flex: 1;
-      border: none;
-      padding: 5px 10px;
-      text-align: center;
-      font-size: 16px;
-      background: transparent;
-      position: relative;
-      color: var(--dark);
-    }
-    .stat:not(:last-child)::after {
-      content: "";
-      position: absolute;
-      right: 0;
-      top: 20%;
-      height: 60%;
-      width: 1px;
-      background-color: #000000; /* สีของขีดกั้น */
-    }
-    .result-quote{
-      margin-top:12px;
-      font-size:18px;
-      color:#6b6f74;
-      text-align:center;
-      background:transparent;
-      border:none;
-      border-radius:10px;
-      padding:10px 12px;
-    }
-    .result-rare{
-      margin-top:10px;
-      text-align:center;
-    }
-    .stars{
-      color:#ef954b;
-      font-size:20px;
-      letter-spacing:2px;
-      line-height:1;
-    }
-    .rare-pill{
-      margin-top:4px;
-      display:inline-block;
-      border:none;
-      color:#ea9250;
+    .stat{
+      background:#3E3630;
+      color:#FCF7DF;
       border-radius:999px;
-      padding:3px 18px;
+      padding:5px 14px;
+      font-size:13px;
+      font-family:"Itim",sans-serif;
+    }
+    /* quote */
+    .result-quote{
+      text-align:center;
       font-size:14px;
-      background:#fff4ea;
+      color:#A79A8A;
+      font-style:italic;
+      margin:0 0 18px;
+      font-family:"Itim",sans-serif;
     }
+    /* retry */
     .retry-btn{
-      margin-top:16px;
-      border:none;
-      background:var(--dark);
-      color:#fff;
-      border-radius:12px;
-      padding:10px 16px;
-      font-size:16px;
-      font-weight:700;
-      cursor:pointer;
       display:block;
-      margin-left:auto;
-      margin-right:auto;
+      margin:0 auto;
+      border:2px solid #3E3630;
+      background:#3E3630;
+      color:#FCF7DF;
+      border-radius:999px;
+      padding:10px 32px;
+      font-size:15px;
+      font-weight:700;
+      font-family:"Itim",sans-serif;
+      cursor:pointer;
+      letter-spacing:.5px;
+      transition:background .2s, color .2s;
     }
+    .retry-btn:hover{
+      background:#FCF7DF;
+      color:#3E3630;
+    }
+    /* crew section */
     .crew-wrap{
-      margin-top:14px;
-      border-top:none;
-      padding-top:12px;
+      max-width:520px;
+      margin:16px auto 0;
+      text-align:center;
     }
     .crew-title{
-      text-align:center;
-      margin:0 0 10px;
-      font-size:22px;
+      font-size:16px;
+      letter-spacing:2px;
+      color:#A79A8A;
+      font-family:"Courier New",monospace;
+      margin:0 0 12px;
     }
     .crew-grid{
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:10px;
-      max-width:260px;
-      margin:0 auto;
     }
     .crew-item{
       text-align:center;
       font-size:11px;
-      color:#666d73;
+      color:#3E3630;
+      background:#FCF7DF;
+      border:1px solid #d5cfc4;
+      border-radius:14px;
+      padding:10px 6px 8px;
     }
     .crew-item img{
-      width:100%;
-      max-width:58px;
-      aspect-ratio:1/1;
+      width:64px;
+      height:64px;
       object-fit:cover;
       border-radius:999px;
-      border:none;
-      background:#f4f7f9;
-      margin:0 auto 4px;
+      border:2px solid #A79A8A;
+      background:#C7D3DB;
+      margin:0 auto 6px;
       display:block;
     }
+    .result-rare{ display:none; }
+    .stars{ display:none; }
+    .rare-pill{ display:none; }
     .landing{
       width:min(980px, 92vw);
       padding:32px 20px;
@@ -457,36 +479,19 @@
       .btn{
         font-size:18px;
       }
-      .result-title{font-size:34px}
-      .result-subtitle{font-size:24px;letter-spacing:3px}
-      .result-desc{font-size:22px}
-      .result-explain{font-size:19px}
-      .stat{
-        font-size:18px;
-      }
-      .result-quote{
-        font-size:20px;
-      }
-      .rare-pill{
-        font-size:16px;
-      }
-      .crew-title{
-        font-size:24px;
-      }
-      .crew-item{
-        font-size:13px;
-      }
+      .result-title{font-size:30px}
+      .result-subtitle{font-size:12px;letter-spacing:3px}
+      .result-desc{font-size:17px}
+      .result-explain{font-size:15px}
+      .stat{font-size:13px;}
+      .result-quote{font-size:14px;}
+      .crew-title{font-size:13px;}
+      .crew-item{font-size:11px;}
       .result-stats {
-        display: flex !important; /* บังคับให้เป็นแนวนอนในมือถือ */
+        display: flex !important;
         flex-direction: row !important;
-        grid-template-columns: none !important;
-        margin-top: 20px;
       }
-      .stat {
-        font-size: 15px; /* ขนาดตัวอักษรในมือถือ */
-        padding: 4px 8px;
-      }
-      .crew-grid{grid-template-columns:repeat(2,1fr)}
+      .crew-grid{grid-template-columns:repeat(3,1fr)}
     }
 
     @media (min-width:721px){
@@ -534,6 +539,10 @@
       }
     }
 
+    @keyframes popupCatFloat{
+      0%,100%{ transform:translateY(0); }
+      50%    { transform:translateY(-4px); }
+    }
     /* ====== retro popup ====== */
     .popup-overlay{
       position:fixed;
@@ -680,66 +689,66 @@
     ];
 
     const mainResults = {
-      A:{title:"แมวเปอร์เซีย",enTitle:"PERSIAN CAT",image:"assets/cats/persian.jpg",desc:"นิ่ง สุขุม มีโลกส่วนตัวสูง อ่อนโยนแต่เปิดใจยาก",explain:"คุณตัดสินใจจากความรู้สึกภายในมากกว่าความเร่งรีบภายนอก จึงต้องการความสัมพันธ์ที่มั่นคงและพื้นที่ปลอดภัย เมื่อไว้ใจใครแล้วจะดูแลแบบลึกและจริงใจมาก",stats:["อ่อนไหว","มั่นคง","ช่างคิด"],quote:"เงียบ...แต่รักจริงไม่เล่น",rarity:3,traits:["introvert","อ่อนไหว","รักความสงบ","ขี้คิด"]},
-      B:{title:"แมวส้มจอมป่วน",enTitle:"ORANGE CAT",image:"assets/cats/orange.jpg",desc:"พลังงานสูง เข้ากับคนง่าย ขี้เล่นและใจดี",explain:"คุณเป็นคนส่งพลังบวกให้คนรอบตัวเก่ง มีความกล้าเริ่มบทสนทนาและชอบสร้างบรรยากาศสนุก ๆ แม้ภายนอกสดใส แต่ลึก ๆ ก็ต้องการคนที่รับฟังด้านอ่อนโยนของคุณเช่นกัน",stats:["ขี้เล่น","อบอุ่น","เฟรนด์ลี่"],quote:"ยิ้มไว้ก่อน เดี๋ยวทุกอย่างก็ดีขึ้น",rarity:2,traits:["social สูง","ตลก","ขี้อ้อน","กินเก่ง","ใจดี"]},
-      C:{title:"แมวดำลึกลับ",enTitle:"BLACK CAT",image:"assets/cats/black.jpg",desc:"มีเสน่ห์น่าค้นหา ฉลาด ปกป้องตัวเองเก่ง",explain:"คุณอ่านสถานการณ์เก่งและเก็บรายละเอียดได้ไว จึงไม่ค่อยเปิดไพ่ทั้งหมดตั้งแต่แรก ภาพรวมดูนิ่งและคูล แต่จริง ๆ เป็นคนจริงจังกับความสัมพันธ์และให้คุณค่ากับความชัดเจนมาก",stats:["ลึกลับ","ฉลาด","คมชัด"],quote:"ไม่พูดเยอะ แต่มองลึกเสมอ",rarity:4,traits:["independent","ฉลาด","ปากแข็ง","มีเสน่ห์เงียบ ๆ"]},
-      D:{title:"เมนคูนผู้ปกป้อง",enTitle:"MAINE COON",image:"assets/cats/mainecoon.jpg",desc:"อบอุ่น รักคนของตัวเอง ดูแลเก่งและจริงใจ",explain:"คุณชอบแสดงความรักผ่านการลงมือทำ เช่นดูแลรายละเอียดเล็ก ๆ และอยู่ข้างคนสำคัญในวันที่ยากที่สุด ภายนอกดูเข้มแข็ง แต่หัวใจลึก ๆ ต้องการการตอบรับที่อบอุ่นไม่แพ้กัน",stats:["เอาใจใส่","ซื่อสัตย์","จริงใจ"],quote:"ดูแลเธอ คือภาษารักของฉัน",rarity:3,traits:["loyal","caring","โรแมนติก","emotional ลึก"]},
+      A:{title:"แมวเปอร์เซีย",enTitle:"PERSIAN CAT",image:"assets/cats/persian.png",desc:"นิ่ง สุขุม มีโลกส่วนตัวสูง อ่อนโยนแต่เปิดใจยาก",explain:"คุณตัดสินใจจากความรู้สึกภายในมากกว่าความเร่งรีบภายนอก จึงต้องการความสัมพันธ์ที่มั่นคงและพื้นที่ปลอดภัย เมื่อไว้ใจใครแล้วจะดูแลแบบลึกและจริงใจมาก",stats:["อ่อนไหว","มั่นคง","ช่างคิด"],quote:"เงียบ...แต่รักจริงไม่เล่น",rarity:3,traits:["introvert","อ่อนไหว","รักความสงบ","ขี้คิด"]},
+      B:{title:"แมวส้มจอมป่วน",enTitle:"ORANGE CAT",image:"assets/cats/orange.png",desc:"พลังงานสูง เข้ากับคนง่าย ขี้เล่นและใจดี",explain:"คุณเป็นคนส่งพลังบวกให้คนรอบตัวเก่ง มีความกล้าเริ่มบทสนทนาและชอบสร้างบรรยากาศสนุก ๆ แม้ภายนอกสดใส แต่ลึก ๆ ก็ต้องการคนที่รับฟังด้านอ่อนโยนของคุณเช่นกัน",stats:["ขี้เล่น","อบอุ่น","เฟรนด์ลี่"],quote:"ยิ้มไว้ก่อน เดี๋ยวทุกอย่างก็ดีขึ้น",rarity:2,traits:["social สูง","ตลก","ขี้อ้อน","กินเก่ง","ใจดี"]},
+      C:{title:"แมวดำลึกลับ",enTitle:"BLACK CAT",image:"assets/cats/black.png",desc:"มีเสน่ห์น่าค้นหา ฉลาด ปกป้องตัวเองเก่ง",explain:"คุณอ่านสถานการณ์เก่งและเก็บรายละเอียดได้ไว จึงไม่ค่อยเปิดไพ่ทั้งหมดตั้งแต่แรก ภาพรวมดูนิ่งและคูล แต่จริง ๆ เป็นคนจริงจังกับความสัมพันธ์และให้คุณค่ากับความชัดเจนมาก",stats:["ลึกลับ","ฉลาด","คมชัด"],quote:"ไม่พูดเยอะ แต่มองลึกเสมอ",rarity:4,traits:["independent","ฉลาด","ปากแข็ง","มีเสน่ห์เงียบ ๆ"]},
+      D:{title:"เมนคูนผู้ปกป้อง",enTitle:"MAINE COON",image:"assets/cats/mainecoon.png",desc:"อบอุ่น รักคนของตัวเอง ดูแลเก่งและจริงใจ",explain:"คุณชอบแสดงความรักผ่านการลงมือทำ เช่นดูแลรายละเอียดเล็ก ๆ และอยู่ข้างคนสำคัญในวันที่ยากที่สุด ภายนอกดูเข้มแข็ง แต่หัวใจลึก ๆ ต้องการการตอบรับที่อบอุ่นไม่แพ้กัน",stats:["เอาใจใส่","ซื่อสัตย์","จริงใจ"],quote:"ดูแลเธอ คือภาษารักของฉัน",rarity:3,traits:["loyal","caring","โรแมนติก","emotional ลึก"]},
     };
 
     const tieResults = {
-      "A+C":{title:"สฟิงซ์ผู้ซ่อนหัวใจอ่อนไหว",enTitle:"SPHYNX CAT",image:"assets/cats/sphynx.jpg",desc:"นิ่ง เย็นชา แต่ลึก ๆ ต้องการความรัก",explain:"คุณมีทั้งความสงบแบบเก็บตัวและความคมชัดแบบสังเกตการณ์ จึงดูเข้าถึงยากในตอนแรก แต่เมื่อปลอดภัยพอจะเผยด้านอ่อนโยนและรักจริงแบบไม่ผิวเผิน",stats:["นิ่งลึก","อ่านคนเก่ง","แพชชั่นสูง"],quote:"ดูเฉย ๆ แต่ใจอ่อนกับคนพิเศษ",rarity:4,traits:["ลึกลับ","อ่อนไหว"]},
-      "B+D":{title:"แร็กดอลล์แมวขี้อ้อน",enTitle:"RAGDOLL CAT",image:"assets/cats/ragdoll.jpg",desc:"ขี้อ้อน อบอุ่น เป็น safe zone ให้คนอื่น",explain:"คุณมีสมดุลระหว่างความสดใสกับความใส่ใจ ทำให้คนรอบตัวรู้สึกสบายใจเวลาอยู่ด้วย เป็นประเภทที่ทั้งสนุกและจริงใจ จึงสร้างความสัมพันธ์ระยะยาวได้ดี",stats:["ขี้อ้อน","ใจดี","น่าไว้ใจ"],quote:"ความนุ่มนวล คือพลังของฉัน",rarity:2,traits:["อบอุ่น","ติดคน"]},
-      "B+C":{title:"เบงกอลนักผจญภัย",enTitle:"BENGAL CAT",image:"assets/cats/bengal.jpg",desc:"พลังงานสูง ฉลาด คาดเดายาก",explain:"คุณรวมความกล้าลุยกับความฉลาดเชิงกลยุทธ์ไว้ด้วยกัน ชอบลองสิ่งใหม่แต่ยังมีวิธีคิดของตัวเองชัดเจน เสน่ห์ของคุณคือความเป็นตัวเองที่ไม่จำเจ",stats:["กล้าลุย","ไวพริบดี","ครีเอทีฟ"],quote:"ฉันไม่ซ้ำใคร และภูมิใจกับสิ่งนั้น",rarity:5,traits:["ผจญภัย","ฉลาด"]},
-      "A+D":{title:"บริติชชอร์ตแฮร์ผู้ดีแสนอบอุ่น",enTitle:"BRITISH SHORTHAIR",image:"assets/cats/british.jpg",desc:"นิ่ง สุภาพ จริงใจ แสดงรักผ่านการกระทำ",explain:"คุณไม่ได้แสดงออกหวือหวา แต่มั่นคงและใส่ใจในรายละเอียดของคนที่รักเสมอ คนอื่นอาจมองว่าคุณเงียบ แต่คนใกล้ชิดจะรู้ว่าคุณอบอุ่นและไว้ใจได้มาก",stats:["สุภาพ","มั่นคง","อบอุ่น"],quote:"ฉันไม่พูดเยอะ แต่ทำให้เห็นเสมอ",rarity:3,traits:["สุขุม","จริงใจ"]},
+      "A+C":{title:"สฟิงซ์ผู้ซ่อนหัวใจอ่อนไหว",enTitle:"SPHYNX CAT",image:"assets/cats/sphynx.png",desc:"นิ่ง เย็นชา แต่ลึก ๆ ต้องการความรัก",explain:"คุณมีทั้งความสงบแบบเก็บตัวและความคมชัดแบบสังเกตการณ์ จึงดูเข้าถึงยากในตอนแรก แต่เมื่อปลอดภัยพอจะเผยด้านอ่อนโยนและรักจริงแบบไม่ผิวเผิน",stats:["นิ่งลึก","อ่านคนเก่ง","แพชชั่นสูง"],quote:"ดูเฉย ๆ แต่ใจอ่อนกับคนพิเศษ",rarity:4,traits:["ลึกลับ","อ่อนไหว"]},
+      "B+D":{title:"แร็กดอลล์แมวขี้อ้อน",enTitle:"RAGDOLL CAT",image:"assets/cats/ragdoll.png",desc:"ขี้อ้อน อบอุ่น เป็น safe zone ให้คนอื่น",explain:"คุณมีสมดุลระหว่างความสดใสกับความใส่ใจ ทำให้คนรอบตัวรู้สึกสบายใจเวลาอยู่ด้วย เป็นประเภทที่ทั้งสนุกและจริงใจ จึงสร้างความสัมพันธ์ระยะยาวได้ดี",stats:["ขี้อ้อน","ใจดี","น่าไว้ใจ"],quote:"ความนุ่มนวล คือพลังของฉัน",rarity:2,traits:["อบอุ่น","ติดคน"]},
+      "B+C":{title:"เบงกอลนักผจญภัย",enTitle:"BENGAL CAT",image:"assets/cats/bengal.png",desc:"พลังงานสูง ฉลาด คาดเดายาก",explain:"คุณรวมความกล้าลุยกับความฉลาดเชิงกลยุทธ์ไว้ด้วยกัน ชอบลองสิ่งใหม่แต่ยังมีวิธีคิดของตัวเองชัดเจน เสน่ห์ของคุณคือความเป็นตัวเองที่ไม่จำเจ",stats:["กล้าลุย","ไวพริบดี","ครีเอทีฟ"],quote:"ฉันไม่ซ้ำใคร และภูมิใจกับสิ่งนั้น",rarity:5,traits:["ผจญภัย","ฉลาด"]},
+      "A+D":{title:"บริติชชอร์ตแฮร์ผู้ดีแสนอบอุ่น",enTitle:"BRITISH SHORTHAIR",image:"assets/cats/british.png",desc:"นิ่ง สุภาพ จริงใจ แสดงรักผ่านการกระทำ",explain:"คุณไม่ได้แสดงออกหวือหวา แต่มั่นคงและใส่ใจในรายละเอียดของคนที่รักเสมอ คนอื่นอาจมองว่าคุณเงียบ แต่คนใกล้ชิดจะรู้ว่าคุณอบอุ่นและไว้ใจได้มาก",stats:["สุภาพ","มั่นคง","อบอุ่น"],quote:"ฉันไม่พูดเยอะ แต่ทำให้เห็นเสมอ",rarity:3,traits:["สุขุม","จริงใจ"]},
     };
     const crewMap = {
       A: [
-        {name:"แมวดำลึกลับ", image:"assets/cats/black.jpg"},
-        {name:"เมนคูนผู้ปกป้อง", image:"assets/cats/mainecoon.jpg"},
-        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.jpg"},
-        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.jpg"}
+        {name:"แมวดำลึกลับ", image:"assets/cats/black.png"},
+        {name:"เมนคูนผู้ปกป้อง", image:"assets/cats/mainecoon.png"},
+        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.png"},
+        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.png"}
       ],
       B: [
-        {name:"เบงกอล", image:"assets/cats/bengal.jpg"},
-        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.jpg"},
-        {name:"เมนคูน", image:"assets/cats/mainecoon.jpg"},
-        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.jpg"}
+        {name:"เบงกอล", image:"assets/cats/bengal.png"},
+        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.png"},
+        {name:"เมนคูน", image:"assets/cats/mainecoon.png"},
+        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.png"}
       ],
       C: [
-        {name:"สฟิงซ์", image:"assets/cats/sphynx.jpg"},
-        {name:"เบงกอล", image:"assets/cats/bengal.jpg"},
-        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.jpg"},
-        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.jpg"}
+        {name:"สฟิงซ์", image:"assets/cats/sphynx.png"},
+        {name:"เบงกอล", image:"assets/cats/bengal.png"},
+        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.png"},
+        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.png"}
       ],
       D: [
-        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.jpg"},
-        {name:"แมวส้มจอมป่วน", image:"assets/cats/orange.jpg"},
-        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.jpg"},
-        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.jpg"}
+        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.png"},
+        {name:"แมวส้มจอมป่วน", image:"assets/cats/orange.png"},
+        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.png"},
+        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.png"}
       ],
       "A+C": [
-        {name:"แมวดำลึกลับ", image:"assets/cats/black.jpg"},
-        {name:"เบงกอล", image:"assets/cats/bengal.jpg"},
-        {name:"สฟิงซ์", image:"assets/cats/sphynx.jpg"},
-        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.jpg"}
+        {name:"แมวดำลึกลับ", image:"assets/cats/black.png"},
+        {name:"เบงกอล", image:"assets/cats/bengal.png"},
+        {name:"สฟิงซ์", image:"assets/cats/sphynx.png"},
+        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.png"}
       ],
       "B+D": [
-        {name:"แมวส้มจอมป่วน", image:"assets/cats/orange.jpg"},
-        {name:"เมนคูน", image:"assets/cats/mainecoon.jpg"},
-        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.jpg"},
-        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.jpg"}
+        {name:"แมวส้มจอมป่วน", image:"assets/cats/orange.png"},
+        {name:"เมนคูน", image:"assets/cats/mainecoon.png"},
+        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.png"},
+        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.png"}
       ],
       "B+C": [
-        {name:"เบงกอล", image:"assets/cats/bengal.jpg"},
-        {name:"แมวดำลึกลับ", image:"assets/cats/black.jpg"},
-        {name:"แมวส้มจอมป่วน", image:"assets/cats/orange.jpg"},
-        {name:"สฟิงซ์", image:"assets/cats/sphynx.jpg"}
+        {name:"เบงกอล", image:"assets/cats/bengal.png"},
+        {name:"แมวดำลึกลับ", image:"assets/cats/black.png"},
+        {name:"แมวส้มจอมป่วน", image:"assets/cats/orange.png"},
+        {name:"สฟิงซ์", image:"assets/cats/sphynx.png"}
       ],
       "A+D": [
-        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.jpg"},
-        {name:"เมนคูน", image:"assets/cats/mainecoon.jpg"},
-        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.jpg"},
-        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.jpg"}
+        {name:"บริติชชอร์ตแฮร์", image:"assets/cats/british.png"},
+        {name:"เมนคูน", image:"assets/cats/mainecoon.png"},
+        {name:"แมวเปอร์เซีย", image:"assets/cats/persian.png"},
+        {name:"แร็กดอลล์", image:"assets/cats/ragdoll.png"}
       ]
     };
     const fallbackImage = "634416222_946939267760313_225817689217806069_n.jpg";
@@ -870,21 +879,24 @@
       document.getElementById("popupOkBtn").onclick = () => {
         popup.style.display = "none";
         result.style.display = "block";
+        if(window.triggerSparkle) window.triggerSparkle(document.querySelector('.result-card'));
       };
       result.innerHTML = `
-        <div class="result-head">
-          <h2 class="result-title">${out.title}</h2>
-          <p class="result-subtitle">${out.enTitle || "CAT PERSONALITY"}</p>
-        </div>
         <div class="result-card">
-          <img class="result-image" src="${out.image || fallbackImage}" alt="${out.title}" onerror="this.src='${fallbackImage}'">
-          <p class="result-desc">${out.desc}</p>
-          <div class="result-explain">${out.explain}</div>
-          <div class="result-stats">${stats}</div>
-          <div class="result-quote">"${out.quote || "นี่แหละตัวตนแมวในแบบคุณ"}"</div>
-          
-          
-          <button class="retry-btn" id="retryBtn">ลองอีกครั้ง</button>
+          <div class="result-img-wrap">
+            <img class="result-image" src="${out.image || fallbackImage}" alt="${out.title}" onerror="this.src='${fallbackImage}'">
+          </div>
+          <div class="result-body">
+            <div class="result-head">
+              <h2 class="result-title">${out.title}</h2>
+              <p class="result-subtitle">${out.enTitle || "CAT PERSONALITY"}</p>
+            </div>
+            <p class="result-desc">${out.desc}</p>
+            <div class="result-explain">${out.explain}</div>
+            <div class="result-stats">${stats}</div>
+            <div class="result-quote">"${out.quote || "นี่แหละตัวตนแมวในแบบคุณ"}"</div>
+            <button class="retry-btn" id="retryBtn">ลองอีกครั้ง</button>
+          </div>
         </div>
       `;
       const retryBtn = document.getElementById("retryBtn");
@@ -928,7 +940,7 @@
       <div class="popup-body">
         <p>あなたは猫を受け取りました</p>
         <p class="popup-sub">You have received a cat.</p>
-        <svg width="72" height="67" viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:8px auto 4px;image-rendering:pixelated;">
+        <svg width="72" height="67" viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:8px auto 4px;image-rendering:pixelated;animation:popupCatFloat 1.8s ease-in-out infinite;">
           <!-- หู -->
           <rect x="1" y="0" width="2" height="2" fill="#1a1a1a"/>
           <rect x="11" y="0" width="2" height="2" fill="#1a1a1a"/>
@@ -955,5 +967,104 @@
       </div>
     </div>
   </div>
+  <canvas id="sparkleCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:1000;"></canvas>
+  <script>
+    (function(){
+      const canvas = document.getElementById('sparkleCanvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let animId = null;
+
+      function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      window.addEventListener('resize', resize);
+      resize();
+
+      const COLORS = ['#f5c842','#f7d86b','#ffe066','#ffd700','#fff176','#ffec40'];
+      const SHAPES = ['star','star','star','circle','diamond'];
+
+      let _cx = window.innerWidth/2, _cy = window.innerHeight/2;
+
+      function createParticles(cx, cy){
+        particles = [];
+        cx = cx || window.innerWidth / 2;
+        cy = cy || window.innerHeight / 2;
+        for(let i = 0; i < 90; i++){
+          const angle = (Math.PI * 2 / 90) * i + (Math.random() - 0.5) * 0.5;
+          const speed = 1.5 + Math.random() * 5.5;
+          const size  = 4 + Math.random() * 10;
+          particles.push({
+            x: cx, y: cy,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            size,
+            color: COLORS[Math.floor(Math.random() * COLORS.length)],
+            shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+            alpha: 0.75,
+            decay: 0.003 + Math.random() * 0.004,
+            gravity: 0.02 + Math.random() * 0.02,
+            rotation: Math.random() * Math.PI * 2,
+            rotSpeed: (Math.random() - 0.5) * 0.1,
+          });
+        }
+      }
+
+      function drawStar(ctx, x, y, r, rot){
+        ctx.save(); ctx.translate(x,y); ctx.rotate(rot);
+        ctx.beginPath();
+        for(let i=0;i<5;i++){
+          const a = (Math.PI*2/5)*i - Math.PI/2;
+          const b = a + Math.PI/5;
+          ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
+          ctx.lineTo(Math.cos(b)*r*0.4, Math.sin(b)*r*0.4);
+        }
+        ctx.closePath(); ctx.fill(); ctx.restore();
+      }
+
+      function loop(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        let alive = false;
+        for(const p of particles){
+          if(p.alpha <= 0) continue;
+          alive = true;
+          p.x += p.vx; p.y += p.vy;
+          p.vy += p.gravity;
+          p.vx *= 0.98;
+          p.alpha -= p.decay;
+          p.rotation += p.rotSpeed;
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.fillStyle = p.color;
+          if(p.shape === 'star'){
+            drawStar(ctx, p.x, p.y, p.size, p.rotation);
+          } else if(p.shape === 'circle'){
+            ctx.beginPath(); ctx.arc(p.x,p.y,p.size*0.5,0,Math.PI*2); ctx.fill();
+          } else {
+            ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rotation);
+            ctx.beginPath();
+            ctx.moveTo(0,-p.size*0.6); ctx.lineTo(p.size*0.4,0);
+            ctx.lineTo(0,p.size*0.6); ctx.lineTo(-p.size*0.4,0);
+            ctx.closePath(); ctx.fill(); ctx.restore();
+          }
+        }
+        ctx.globalAlpha = 1;
+        if(alive) animId = requestAnimationFrame(loop);
+        else particles = [];
+      }
+
+      window.triggerSparkle = function(targetEl){
+        if(animId){ cancelAnimationFrame(animId); animId = null; }
+        // center on target element if provided
+        if(targetEl){
+          const rect = targetEl.getBoundingClientRect();
+          _cx = rect.left + rect.width / 2;
+          _cy = rect.top + rect.height / 2;
+        } else {
+          _cx = window.innerWidth / 2;
+          _cy = window.innerHeight / 2;
+        }
+        createParticles(_cx, _cy);
+        loop();
+      };
+    })();
+  </script>
 </body>
 </html>
