@@ -236,26 +236,20 @@
     .result-card{
       background:#FCF7DF;
       border:2px solid #A79A8A;
-      border-radius:24px;
+      border-radius:0;
       max-width:520px;
       margin:0 auto;
       overflow:hidden;
-      box-shadow: 0 8px 32px rgba(62,54,48,0.10), 0 2px 8px rgba(167,154,138,0.15);
+      box-shadow: 4px 4px 0 #A79A8A, inset 1px 1px 0 #ffffff;
       position:relative;
     }
     /* top accent bar */
     .result-card::before{
-      content:"";
-      display:block;
-      height:6px;
-      background: linear-gradient(90deg, #FCF7DF, #A79A8A, #FCF7DF);
+      display:none;
     }
     /* bottom accent bar */
     .result-card::after{
-      content:"";
-      display:block;
-      height:6px;
-      background: linear-gradient(90deg, #FCF7DF, #A79A8A, #FCF7DF);
+      display:none;
     }
     /* image section */
     .result-img-wrap{
@@ -545,6 +539,28 @@
       0%,100%{ transform:translateY(0); }
       50%    { transform:translateY(-4px); }
     }
+    /* ====== result titlebar ====== */
+    .result-titlebar{
+      background:#A79A8A;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:4px 6px;
+      font-size:11px;
+      color:#FCF7DF;
+      font-weight:bold;
+      letter-spacing:.5px;
+    }
+    .result-titlebar-left{display:flex;align-items:center;gap:4px;}
+    .result-titlebar-btn{
+      width:13px;height:13px;
+      background:#FCF7DF;
+      border:1px solid #3E3630;
+      font-size:7px;
+      display:flex;align-items:center;justify-content:center;
+      color:#3E3630;
+    }
+
     /* ====== retro popup ====== */
     .popup-overlay{
       position:fixed;
@@ -885,6 +901,16 @@
       };
       result.innerHTML = `
         <div class="result-card">
+          <div class="result-titlebar">
+            <div class="result-titlebar-left">
+              <div class="result-titlebar-btn">□</div>
+              <span>あなたは賞を受け取りました</span>
+            </div>
+            <div style="display:flex;gap:3px;">
+              <div class="result-titlebar-btn">－</div>
+              <div class="result-titlebar-btn">✕</div>
+            </div>
+          </div>
           <div class="result-img-wrap">
             <img class="result-image" src="${out.image || fallbackImage}" alt="${out.title}" onerror="this.src='${fallbackImage}'">
           </div>
