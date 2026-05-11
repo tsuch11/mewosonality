@@ -250,6 +250,13 @@
       height:6px;
       background: linear-gradient(90deg, #C7D3DB, #A79A8A, #C7D3DB);
     }
+    /* bottom accent bar */
+    .result-card::after{
+      content:"";
+      display:block;
+      height:6px;
+      background: linear-gradient(90deg, #C7D3DB, #A79A8A, #C7D3DB);
+    }
     /* image section */
     .result-img-wrap{
       background: linear-gradient(180deg, #C7D3DB 0%, #dce6eb 100%);
@@ -321,8 +328,7 @@
       line-height:1.65;
       color:#5a5048;
       background:rgba(199,211,219,0.25);
-      border-left:3px solid #A79A8A;
-      border-radius:0 8px 8px 0;
+      border-radius:8px;
       padding:10px 14px;
       margin:0 0 14px;
     }
@@ -366,6 +372,7 @@
       cursor:pointer;
       letter-spacing:.5px;
       transition:background .2s, color .2s;
+      margin-bottom:8px;
     }
     .retry-btn:hover{
       background:#FCF7DF;
