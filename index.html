@@ -235,12 +235,12 @@
     /* outer card */
     .result-card{
       background:#FCF7DF;
-      border:2px solid #A79A8A;
+      border:2px solid #9B8B7B;
       border-radius:0;
       max-width:520px;
       margin:0 auto;
       overflow:hidden;
-      box-shadow: 4px 4px 0 #A79A8A, inset 1px 1px 0 #ffffff;
+      box-shadow: 4px 4px 0 #9B8B7B, inset 1px 1px 0 #ffffff;
       position:relative;
     }
     /* top accent bar */
@@ -288,21 +288,23 @@
     .result-head{
       text-align:center;
       margin-bottom:14px;
-      padding-bottom:14px;
+      padding:14px;
       border-bottom: 1px solid #d5cfc4;
+      background:#8B7F6B;
     }
     .result-title{
       margin:0 0 4px;
       font-size:34px;
-      color:#3E3630;
+      color:#ffffff;
       line-height:1.1;
     }
     .result-subtitle{
       margin:0;
       font-size:13px;
       letter-spacing:3px;
-      color:#A79A8A;
+      color:#ffffff;
       font-family:"Courier New",monospace;
+      font-weight:900;
     }
     .result-desc{
       font-size:17px;
@@ -311,12 +313,15 @@
       margin:0 0 12px;
       font-weight:600;
       line-height:1.5;
+      background:#FCF7DF;
+      padding:12px;
+      border-radius:0;
     }
     .result-explain{
       font-size:15px;
       line-height:1.65;
       color:#5a5048;
-      background:rgba(199,211,219,0.25);
+      background:#ffffff;
       border-radius:8px;
       padding:10px 14px;
       margin:0 0 14px;
@@ -541,7 +546,7 @@
     }
     /* ====== result titlebar ====== */
     .result-titlebar{
-      background:#A79A8A;
+      background:#9B8B7B;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -831,6 +836,7 @@
       const btn = e.target.closest(".opt");
       if(!btn || isTransitioning) return;
       isTransitioning = true;
+      if(window.sfxClick) window.sfxClick();
       answers[current] = btn.dataset.choice;
       btn.animate(
         [{ transform: "scale(1)" }, { transform: "scale(0.985)" }, { transform: "scale(1)" }],
@@ -842,9 +848,12 @@
       setTimeout(() => {
         if(current < questions.length - 1){
           current++;
+          if(window.sfxTransition) window.sfxTransition();
           renderQuestion();
           isTransitioning = false;
         } else {
+          if(window.sfxTransition) window.sfxTransition();
+          if(window.stopBGM) window.stopBGM();
           showResult();
           isTransitioning = false;
         }
@@ -894,8 +903,10 @@
       // show retro popup first
       const popup = document.getElementById("catPopup");
       popup.style.display = "flex";
+      if(window.sfxCelebrate) window.sfxCelebrate();
       document.getElementById("popupOkBtn").onclick = () => {
         popup.style.display = "none";
+        if(window.sfxStarCollect) window.sfxStarCollect();
         result.style.display = "block";
         if(window.triggerSparkle) window.triggerSparkle(document.querySelector('.result-card'));
       };
@@ -904,7 +915,6 @@
           <div class="result-titlebar">
             <div class="result-titlebar-left">
               <div class="result-titlebar-btn">□</div>
-              <span>あなたは賞を受け取りました</span>
             </div>
             <div style="display:flex;gap:3px;">
               <div class="result-titlebar-btn">－</div>
@@ -929,7 +939,10 @@
       `;
       const retryBtn = document.getElementById("retryBtn");
       if (retryBtn) {
-        retryBtn.addEventListener("click", resetQuiz);
+        retryBtn.addEventListener("click", () => {
+        if(window.sfx8bit) window.sfx8bit();
+        resetQuiz();
+      });
       }
     }
 
@@ -939,20 +952,259 @@
       result.style.display = "none";
       quizCard.style.display = "block";
       quizHead.style.display = "block";
+      if(window.startBGM) window.startBGM();
       renderQuestion();
     }
 
     startBtn.addEventListener("click", ()=>{
+      if(window.sfx8bit) window.sfx8bit();
       landing.style.display = "none";
       mainWrap.classList.remove("wrap-landing");
       mainWrap.classList.add("wrap");
       quizHead.style.display = "block";
       quizCard.style.display = "block";
+      if(window.startBGM) window.startBGM();
       renderQuestion();
     });
   </script>
 
-  <!-- retro popup -->
+  <!-- 🔊 Audio Engine -->
+  <script>
+  (function(){
+    let audioCtx = null;
+    let bgmNodes = null;
+    let bgmGain = null;
+    let muted = false;
+    let volume = 1.0;
+
+    function getCtx(){
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      return audioCtx;
+    }
+
+    // ── helpers ──────────────────────────────────────────────────
+    function playTone(freq, type, startTime, duration, vol, ctx, dest){
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(dest);
+      osc.type = type; osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(vol, startTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+      osc.start(startTime); osc.stop(startTime + duration + 0.05);
+    }
+
+    // ── 1. เสียงคลิกเลือกคำตอบ ──────────────────────────────────
+    window.sfxClick = function(){
+      if(muted) return;
+      const ctx = getCtx();
+      const master = ctx.createGain(); master.gain.value = 0.18 * volume;
+      master.connect(ctx.destination);
+      const now = ctx.currentTime;
+      playTone(988,  "square", now,      0.05, 0.5, ctx, master);
+      playTone(1319, "square", now+0.05, 0.12, 0.4, ctx, master);
+    };
+
+    window.sfx8bit = function(){
+      if(muted) return;
+      const ctx = getCtx();
+      const master = ctx.createGain(); master.gain.value = 0.35 * volume;
+      master.connect(ctx.destination);
+      const now = ctx.currentTime;
+      playTone(220, "square", now,      0.04, 0.4, ctx, master);
+      playTone(440, "square", now+0.04, 0.04, 0.35, ctx, master);
+      playTone(660, "square", now+0.08, 0.05, 0.3, ctx, master);
+    };
+    window.sfxTransition = function(){
+      if(muted) return;
+      const ctx = getCtx();
+      const master = ctx.createGain(); master.gain.value = 0.25 * volume;
+      master.connect(ctx.destination);
+      const now = ctx.currentTime;
+      [440, 554, 659].forEach((f, i) =>
+        playTone(f, "sine", now + i*0.07, 0.18, 0.5, ctx, master)
+      );
+    };
+
+    // ── 3. เสียงฉลอง quiz จบ ────────────────────────────────────
+    window.sfxCelebrate = function(){
+      if(muted) return;
+      const ctx = getCtx();
+      const master = ctx.createGain(); master.gain.value = 0.18 * volume;
+      master.connect(ctx.destination);
+      const now = ctx.currentTime;
+      [523,659,784,1047,784,1047,1319].forEach((f,i) =>
+        playTone(f, "square", now + i*0.09, 0.18, 0.5, ctx, master)
+      );
+    };
+
+    window.sfxStarCollect = function(){
+      if(muted) return;
+      const ctx = getCtx();
+      const master = ctx.createGain(); master.gain.value = 0.18 * volume;
+      master.connect(ctx.destination);
+      const now = ctx.currentTime;
+      [659,784,880,988,1047,1175,1319].forEach((f,i) =>
+        playTone(f, "sine", now + i*0.05, 0.15, 0.35, ctx, master)
+      );
+    };
+
+    // ── 4. BGM — gentle looping chiptune ────────────────────────
+    const BPM = 110;
+    const BEAT = 60/BPM;
+    // chord progression: C  Am  F  G  (repeated)
+    const CHORDS = [
+      [261.6, 329.6, 392.0],
+      [220.0, 261.6, 329.6],
+      [174.6, 220.0, 261.6],
+      [196.0, 246.9, 293.7],
+    ];
+    const MELODY = [
+      523,659,784,659,523,587,523,0,
+      440,523,659,523,440,493,440,0,
+      349,440,523,659,523,440,392,0,
+      392,493,587,659,587,493,392,0,
+    ];
+
+    function startBGM(){
+      if(bgmNodes || muted) return;
+      const ctx = getCtx();
+      bgmGain = ctx.createGain();
+      bgmGain.gain.value = 0;
+      bgmGain.connect(ctx.destination);
+      bgmGain.gain.linearRampToValueAtTime(0.07 * volume, ctx.currentTime + 2);
+
+      bgmNodes = [];
+      const loopLen = BEAT * 16;
+
+      function scheduleLoop(startT){
+        const nodes = [];
+        // chords (pads)
+        CHORDS.forEach((chord, ci) => {
+          chord.forEach(freq => {
+            const osc = ctx.createOscillator();
+            const g = ctx.createGain();
+            osc.type = "triangle";
+            osc.frequency.value = freq * 0.5;
+            const t = startT + ci * BEAT * 4;
+            g.gain.setValueAtTime(0, t);
+            g.gain.linearRampToValueAtTime(0.18, t + 0.1);
+            g.gain.setValueAtTime(0.18, t + BEAT*3.6);
+            g.gain.linearRampToValueAtTime(0, t + BEAT*4);
+            osc.connect(g); g.connect(bgmGain);
+            osc.start(t); osc.stop(t + BEAT*4 + 0.1);
+            nodes.push(osc);
+          });
+        });
+        // melody
+        MELODY.forEach((freq, i) => {
+          if(!freq) return;
+          const osc = ctx.createOscillator();
+          const g = ctx.createGain();
+          osc.type = "square";
+          osc.frequency.value = freq;
+          const t = startT + i * BEAT * 0.5;
+          g.gain.setValueAtTime(0, t);
+          g.gain.linearRampToValueAtTime(0.12, t + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.001, t + BEAT*0.45);
+          osc.connect(g); g.connect(bgmGain);
+          osc.start(t); osc.stop(t + BEAT*0.5);
+          nodes.push(osc);
+        });
+        // schedule next loop
+        const timeout = setTimeout(() => scheduleLoop(startT + loopLen), (loopLen - 0.5) * 1000);
+        bgmNodes.push(...nodes, { _timeout: timeout });
+      }
+
+      scheduleLoop(ctx.currentTime + 0.1);
+    }
+
+    function stopBGM(){
+      if(!bgmNodes) return;
+      if(bgmGain) bgmGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.5);
+      bgmNodes.forEach(n => { if(n._timeout) clearTimeout(n._timeout); });
+      setTimeout(() => { bgmNodes = null; }, 1600);
+    }
+
+    window.startBGM = startBGM;
+    window.stopBGM  = stopBGM;
+
+    // ── Volume toggle + vertical slider ─────────────────────────
+    const volContainer = document.createElement("div");
+    volContainer.style.cssText = `
+      position:fixed; bottom:18px; right:18px; z-index:999;
+      display:flex; flex-direction:column; align-items:center; gap:0;
+    `;
+
+    const sliderPanel = document.createElement("div");
+    sliderPanel.style.cssText = `
+      background:#2c1f14; border-radius:14px; padding:12px 10px 8px;
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      margin-bottom:6px;
+      opacity:0; transform:translateY(8px) scale(0.95);
+      pointer-events:none;
+      transition:opacity .22s ease, transform .22s ease;
+      box-shadow:0 4px 16px rgba(0,0,0,0.4);
+      border:1px solid #4a3220;
+    `;
+
+    const volLabel = document.createElement("span");
+    volLabel.style.cssText = `color:#f5f0e8;font-size:10px;font-family:monospace;`;
+    volLabel.textContent = "100";
+
+    const slider = document.createElement("input");
+    slider.type = "range"; slider.min = "0"; slider.max = "100"; slider.value = "100"; slider.step = "1";
+    slider.style.cssText = `
+      writing-mode:vertical-lr; direction:rtl;
+      width:20px; height:80px;
+      accent-color:#f5f0e8; cursor:pointer;
+    `;
+
+    sliderPanel.appendChild(volLabel);
+    sliderPanel.appendChild(slider);
+
+    const muteBtn = document.createElement("button");
+    muteBtn.innerHTML = "🔊";
+    muteBtn.style.cssText = `
+      background:#2c1f14; border:1px solid #4a3220; color:#f5f0e8;
+      border-radius:50%; width:38px; height:38px;
+      font-size:16px; cursor:pointer;
+      box-shadow:0 2px 10px rgba(0,0,0,0.3);
+      transition:opacity .2s; opacity:0.85;
+      display:flex; align-items:center; justify-content:center;
+    `;
+
+    volContainer.appendChild(sliderPanel);
+    volContainer.appendChild(muteBtn);
+    document.body.appendChild(volContainer);
+
+    function showPanel(){ sliderPanel.style.opacity="1"; sliderPanel.style.transform="translateY(0) scale(1)"; sliderPanel.style.pointerEvents="auto"; }
+    function hidePanel(){ sliderPanel.style.opacity="0"; sliderPanel.style.transform="translateY(8px) scale(0.95)"; sliderPanel.style.pointerEvents="none"; }
+
+    volContainer.addEventListener("mouseenter", showPanel);
+    volContainer.addEventListener("mouseleave", hidePanel);
+
+    slider.addEventListener("input", () => {
+      const val = parseInt(slider.value);
+      volume = val / 100;
+      volLabel.textContent = val;
+      muted = val === 0;
+      muteBtn.innerHTML = val === 0 ? "🔇" : val < 40 ? "🔉" : "🔊";
+      if(bgmGain && audioCtx) bgmGain.gain.setValueAtTime(0.07 * volume, audioCtx.currentTime);
+    });
+
+    muteBtn.addEventListener("click", () => {
+      muted = !muted;
+      if(muted){
+        slider.value = "0"; volume = 0; volLabel.textContent = "0"; muteBtn.innerHTML = "🔇";
+        if(bgmGain && audioCtx) bgmGain.gain.setValueAtTime(0, audioCtx.currentTime);
+      } else {
+        slider.value = "70"; volume = 0.7; volLabel.textContent = "70"; muteBtn.innerHTML = "🔊";
+        if(bgmGain && audioCtx) bgmGain.gain.setValueAtTime(0.07 * volume, audioCtx.currentTime);
+      }
+    });
+  })();
+  </script>
   <div class="popup-overlay" id="catPopup" style="display:none;">
     <div class="popup-window">
       <div class="popup-titlebar">
