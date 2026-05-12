@@ -1255,7 +1255,7 @@
       bgmGain = ctx.createGain();
       bgmGain.gain.value = 0;
       bgmGain.connect(ctx.destination);
-      bgmGain.gain.linearRampToValueAtTime(0.20 * volume, ctx.currentTime + 2);
+      bgmGain.gain.linearRampToValueAtTime(0.35 * volume, ctx.currentTime + 2);
 
       bgmNodes = [];
       const loopLen = BEAT * 16;
@@ -1373,7 +1373,7 @@
       volLabel.textContent = val;
       muted = val === 0;
       muteBtn.innerHTML = val === 0 ? "🔇" : val < 40 ? "🔉" : "🔊";
-      if(bgmGain && audioCtx) bgmGain.gain.setValueAtTime(0.20 * volume, audioCtx.currentTime);
+      if(bgmGain && audioCtx) bgmGain.gain.setValueAtTime(0.35 * volume, audioCtx.currentTime);
     });
 
     muteBtn.addEventListener("click", () => {
@@ -1383,7 +1383,7 @@
         if(bgmGain && audioCtx) bgmGain.gain.setValueAtTime(0, audioCtx.currentTime);
       } else {
         slider.value = "70"; volume = 0.7; volLabel.textContent = "70"; muteBtn.innerHTML = "🔊";
-        if(bgmGain && audioCtx) bgmGain.gain.setValueAtTime(0.20 * volume, audioCtx.currentTime);
+        if(bgmGain && audioCtx) bgmGain.gain.setValueAtTime(0.35 * volume, audioCtx.currentTime);
       }
     });
   })();
