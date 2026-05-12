@@ -562,6 +562,17 @@
       0%,100%{ transform:translateY(0); }
       50%    { transform:translateY(-4px); }
     }
+    @keyframes popupCatBounce{
+      0%  { transform:scale(1); }
+      20% { transform:scale(0.88); }
+      50% { transform:scale(1.18); }
+      70% { transform:scale(0.95); }
+      85% { transform:scale(1.06); }
+      100%{ transform:scale(1); }
+    }
+    #popupCatSvg.cat-bounce{
+      animation:popupCatBounce 0.45s cubic-bezier(.36,.07,.19,.97) both !important;
+    }
     /* ====== result titlebar ====== */
     .result-titlebar{
       background:#9B8B7B;
@@ -971,6 +982,28 @@
         showSection(result);
         if(window.triggerSparkle) window.triggerSparkle(document.querySelector('.result-card'));
       };
+
+      // click แมวใน popup → เสียง surprise + bounce
+      const popupCat = document.getElementById("popupCatSvg");
+      popupCat.onclick = () => {
+        // bounce animation
+        popupCat.classList.remove("cat-bounce");
+        void popupCat.offsetWidth;
+        popupCat.classList.add("cat-bounce");
+        popupCat.addEventListener("animationend", () => popupCat.classList.remove("cat-bounce"), {once:true});
+        // surprise sound
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.type = "sawtooth";
+          o.frequency.setValueAtTime(1200, ctx.currentTime);
+          o.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.2);
+          g.gain.setValueAtTime(0.22, ctx.currentTime);
+          g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+          o.connect(g); g.connect(ctx.destination);
+          o.start(); o.stop(ctx.currentTime + 0.25);
+        } catch(e){}
+      };
       result.innerHTML = `
         <div class="result-card">
           <div class="result-titlebar">
@@ -1370,7 +1403,7 @@
       <div class="popup-body">
         <p>あなたは猫を受け取りました</p>
         <p class="popup-sub">You have received a cat.</p>
-        <svg width="72" height="67" viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:8px auto 4px;image-rendering:pixelated;animation:popupCatFloat 1.8s ease-in-out infinite;">
+        <svg id="popupCatSvg" width="72" height="67" viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:8px auto 4px;image-rendering:pixelated;animation:popupCatFloat 1.8s ease-in-out infinite;cursor:pointer;">
           <!-- หู -->
           <rect x="1" y="0" width="2" height="2" fill="#1a1a1a"/>
           <rect x="11" y="0" width="2" height="2" fill="#1a1a1a"/>
