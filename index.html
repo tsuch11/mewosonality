@@ -138,7 +138,8 @@
       margin:0 auto;
     }
     #options{
-      max-width:520px;
+      width:340px;
+      max-width:100%;
       margin:0 auto;
     }
 
@@ -174,6 +175,21 @@
       font-family:"Itim",sans-serif;
     }
     .opt:hover{background:#f8fafb}
+    .opt.selected{
+      background:#a79a8a;
+      color:#FCF7DF;
+      border-color:#a79a8a;
+    }
+    @keyframes optBounce{
+      0%  { transform:scale(1); }
+      30% { transform:scale(0.94); }
+      55% { transform:scale(1.03); }
+      75% { transform:scale(0.98); }
+      100%{ transform:scale(1); }
+    }
+    .opt.bounce{
+      animation:optBounce 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
     .actions{
       display:flex;
       gap:8px;
@@ -568,6 +584,20 @@
       color:#3E3630;
     }
 
+
+    /* ====== page transitions ====== */
+    .page-section{
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .page-hidden{
+      opacity:0;
+      transform:translateY(18px);
+      pointer-events:none;
+    }
+    .page-visible{
+      opacity:1;
+      transform:translateY(0);
+    }
     /* ====== retro popup ====== */
     .popup-overlay{
       position:fixed;
@@ -647,7 +677,7 @@
 </head>
 <body>
   <div class="wrap wrap-landing" id="mainWrap">
-    <section class="landing" id="landing">
+    <section class="landing page-section page-visible" id="landing">
       <img class="landing-image" src="assets/cats/cover.gif" alt="Reborn as a cat" />
       <h2 class="landing-title">Which Cat you are? </h2>
       <p class="landing-sub">แบบทดสอบสั้น ๆ ดูว่าคาแรกเตอร์คุณเหมือนแมวสายไหน</p>
@@ -786,6 +816,22 @@
     const startBtn = document.getElementById("startBtn");
     const quizHead = document.getElementById("quizHead");
     const backBtn = document.getElementById("backBtn");
+
+    function showSection(el){
+      el.style.display = "block";
+      el.classList.remove("page-hidden");
+      void el.offsetWidth; // force reflow
+      el.classList.add("page-visible");
+    }
+    function hideSection(el, cb){
+      el.classList.remove("page-visible");
+      el.classList.add("page-hidden");
+      setTimeout(() => {
+        el.style.display = "none";
+        el.classList.remove("page-hidden");
+        if(cb) cb();
+      }, 350);
+    }
     const nextBtn = document.getElementById("nextBtn");
     const bar = document.getElementById("bar");
     const result = document.getElementById("result");
@@ -795,6 +841,15 @@
     const answers = Array(questions.length).fill(null);
     let current = 0;
     let isTransitioning = false;
+
+    function shuffleArray(arr){
+      const a = [...arr];
+      for(let i = a.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
 
     function renderQuestion(){
       const item = questions[current];
@@ -828,9 +883,10 @@
     function highlightSelected(){
       const selected = answers[current];
       document.querySelectorAll(".opt").forEach(btn => {
-        const isSelected = btn.dataset.choice === selected;
-        btn.style.borderColor = isSelected ? "var(--taupe)" : "#dfe4e7";
-        btn.style.background = isSelected ? "#f8f3ed" : "#fff";
+        btn.style.borderColor = "";
+        btn.style.background = "";
+        btn.style.color = "";
+        btn.classList.toggle("selected", btn.dataset.choice === selected);
       });
     }
 
@@ -840,11 +896,13 @@
       isTransitioning = true;
       if(window.sfxClick) window.sfxClick();
       answers[current] = btn.dataset.choice;
-      btn.animate(
-        [{ transform: "scale(1)" }, { transform: "scale(0.985)" }, { transform: "scale(1)" }],
-        { duration: 140, easing: "ease-out" }
-      );
+      // bounce animation
+      document.querySelectorAll(".opt").forEach(b => b.classList.remove("bounce"));
       highlightSelected();
+      requestAnimationFrame(() => {
+        btn.classList.add("bounce");
+        btn.addEventListener("animationend", () => btn.classList.remove("bounce"), {once:true});
+      });
       quizCard.classList.remove("question-anim");
       quizCard.classList.add("question-exit");
       setTimeout(() => {
@@ -899,8 +957,9 @@
         <div class="stat">${stat}</div>
       `).join("");
 
-      quizCard.style.display = "none";
-      quizHead.style.display = "none";
+      hideSection(quizCard, () => {
+        quizHead.style.display = "none";
+      });
 
       // show retro popup first
       const popup = document.getElementById("catPopup");
@@ -909,7 +968,7 @@
       document.getElementById("popupOkBtn").onclick = () => {
         popup.style.display = "none";
         if(window.sfxStarCollect) window.sfxStarCollect();
-        result.style.display = "block";
+        showSection(result);
         if(window.triggerSparkle) window.triggerSparkle(document.querySelector('.result-card'));
       };
       result.innerHTML = `
@@ -949,17 +1008,22 @@
     }
 
     function resetQuiz(){
+      const shuffled = shuffleArray(questions);
+      questions.splice(0, questions.length, ...shuffled);
       answers.fill(null);
       current = 0;
-      result.style.display = "none";
-      quizCard.style.display = "block";
-      quizHead.style.display = "block";
+      hideSection(result, () => {
+        quizHead.style.display = "block";
+        showSection(quizCard);
+      });
       if(window.startBGM) window.startBGM();
       renderQuestion();
     }
 
     startBtn.addEventListener("click", ()=>{
       if(window.sfx8bit) window.sfx8bit();
+      const shuffled = shuffleArray(questions);
+      questions.splice(0, questions.length, ...shuffled);
       landing.style.display = "none";
       mainWrap.classList.remove("wrap-landing");
       mainWrap.classList.add("wrap");
